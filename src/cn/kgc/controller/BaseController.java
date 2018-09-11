@@ -26,9 +26,9 @@ public class BaseController extends HttpServlet {
 	static {
 		menus.add(new Menu("100", "基础数据", null, null, null, "main?command=baseDate", "baseDate", null));
 		menus.add(new Menu("110", "基础设置", "#icon-users", null, null, null, "base", new Menu("100")));
-		menus.add(new Menu("111", "专业管理", null, null, null, null, "Professional", new Menu("110")));
-		menus.add(new Menu("112", "班级管理", null, null, null, null, "group", new Menu("110")));
-		menus.add(new Menu("113", "学生档案", null, null, null, null, "student", new Menu("110")));
+		menus.add(new Menu("111", "专业管理", null, null, null, "", "Professional", new Menu("110")));
+		menus.add(new Menu("112", "班级管理", null, null, null, "", "group", new Menu("110")));
+		menus.add(new Menu("113", "学生档案", null, null, null, "", "student", new Menu("110")));
 		
 		menus.add(new Menu("200", "学生日常", null, null, null, "main?command=studentDay", "studentDay", null));
 		menus.add(new Menu("300", "学籍管理", null, null, null, "main?command=studentStatus", "studentStatus", null));
@@ -53,7 +53,7 @@ public class BaseController extends HttpServlet {
 			for (Menu menu : menus) {
 				if(Integer.parseInt(menu.getId()) % 100 == 0) {
 					mainMenus.add(menu);
-					if(command.equals(menu.getTagName())) {
+					if(command != null && command.equals(menu.getTagName())) {
 						createMenus(secMenus,menu.getId());
 					}
 				}

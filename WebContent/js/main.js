@@ -37,8 +37,10 @@ $(".signOut").on("click",function() {
 
 
 //默认显示第一标签页
-$('.mainContentTabs a:first').tab('show')
-$(".tab-content>div:first").load($(".tab-content>div:first").attr("data-url"));
+if($('.mainContentTabs a:first').length != 0) {
+	$('.mainContentTabs a:first').tab('show')
+	$(".tab-content>div:first").load($(".tab-content>div:first").attr("data-url"));
+}
 
 //关闭tab标签按钮
 $(".mainContentTabs").on("click",function() {

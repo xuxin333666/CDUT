@@ -1,3 +1,4 @@
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8" errorPage="/TestWeb/temp/error.jsp"%>
 
@@ -27,11 +28,10 @@
                   <button type="submit" class="btn btn-default">搜索</button>
               </form>
               <ul class="nav navbar-nav navbar-right">
-              	  <li><a href="main?command=index">欢迎页</a></li>
-		          <li><a href="main?command=baseDate">基础数据</a></li>
-			      <li><a href="main?command=studentDay">学生日常</a></li>
-			      <li><a href="main?command=studentStatus">学籍管理</a></li>
-			      <li><a href="main?command=SystemManagement">系统管理</a></li>
+              <c:forEach items="${mainMenus}" var="menu">
+		          <li><a href="main?command=${menu.tagName}">${menu.name}</a></li>
+              </c:forEach>
+			      
                   <li class="dropdown">
                       <a href="#" class="dropdown-toggle userInfo" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">用户信息 <span class="caret"></span></a>
                       <ul class="dropdown-menu dropdown-menu-right">

@@ -58,10 +58,14 @@
                 </div>
                 <div class="col-md-10 col-sm-8 col-xs-12 mainContent">
 					<ul class="nav nav-tabs mainContentTabs">
+					<c:if test="${secMenus.size() == 0}">
 					    <li class="tabItem" data-name="欢迎页"><a href="#欢迎页" data-toggle="tab">首页<span class="glyphicon glyphicon-remove-circle closeTab" aria-hidden="true"></span></a></li>
+					</c:if>
 					</ul>
 					<div class="tab-content">
+					<c:if test="${secMenus.size() == 0}">
 					    <div class="tab-pane fade" data-name="欢迎页" data-url="permissions/tabIndex.jsp" id="欢迎页">找不到页面</div>
+					</c:if>
 					</div>
                 </div>
             </div>
