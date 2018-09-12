@@ -12,20 +12,6 @@ $.ajax({
 })
 
 
-//欢迎头名字
-
-$.ajax({
-	type: "get",
-	url:"getUserInfo",
-	dataType: "json",
-	success: function(msg) {
-		if(msg != null) {
-			$(".realName").html(msg.realName);
-		}
-	}
-})
-
-
 
 //退出登录
 $(".signOut").on("click",function() {
@@ -121,8 +107,6 @@ function refreshTable(name) {
 		     $(`.mainContentTabs>.tabItem[data-name="${tabName}"] a`).tab('show');
 		     $(`.tab-content>div[data-name="${tabName}"]`).load($(`.tab-content>div[data-name="${tabName}"]`).attr("data-url"));
 		     
-		     
-		     conditionChange(searchName);
 		} else {
 			a.parents(".panel").siblings().removeClass("panel-primary").addClass("panel-info");
 			a.parents(".panel").removeClass("panel-info").addClass("panel-primary");

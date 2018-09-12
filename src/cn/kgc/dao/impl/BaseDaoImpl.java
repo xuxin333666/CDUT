@@ -12,11 +12,10 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import cn.kgc.bean.PageBeanDto;
+import cn.kgc.bean.PageBean;
 import cn.kgc.exception.DaoException;
 import cn.kgc.utils.DBPoolConnection;
 import cn.kgc.utils.DateUtils;
-import cn.kgc.utils.StringUtils;
 
 public class BaseDaoImpl<T> {
 	
@@ -49,7 +48,7 @@ public class BaseDaoImpl<T> {
 	 * @throws Exception
 	 */
 	public List<T> query(String sql, Class<?> clazz, Class<?> subClazz, String[] columnName,
-			PageBeanDto<?> pageBeanDto) throws DaoException {
+			PageBean<?> pageBeanDto) throws DaoException {
 		return queryByConditions(sql, clazz, subClazz, columnName, null,pageBeanDto.getCurrentPage(),pageBeanDto.getCountPerPage());
 	}
 	
@@ -63,7 +62,7 @@ public class BaseDaoImpl<T> {
 	 * @return 返回List<Object>
 	 * @throws Exception
 	 */
-	protected List<T> queryByConditions(String sql,Class<?> clazz,Class<?> subClazz,String[] columnName,String[] args) throws DaoException {
+	protected List<T> queryByConditions(String sql,Class<?> clazz,Class<?> subClazz,String[] columnName,List<Object> args) throws DaoException {
 		return queryByConditions(sql, clazz, subClazz, columnName, args,0,0);
 	}
 	
@@ -80,8 +79,10 @@ public class BaseDaoImpl<T> {
 	 * @throws Exception
 	 */
 	public List<T> query(String sql, Class<?> clazz, Class<?> subClazz, String[] columnName,
-			String arg, PageBeanDto<?> pageBeanDto) throws DaoException {
-		return queryByConditions(sql, clazz, subClazz, columnName, new String[]{arg},pageBeanDto.getCurrentPage(),pageBeanDto.getCountPerPage());
+			String arg, PageBean<?> pageBeanDto) throws DaoException {
+		List<Object> args = new ArrayList<>();
+		args.add(arg);
+		return queryByConditions(sql, clazz, subClazz, columnName, args,pageBeanDto.getCurrentPage(),pageBeanDto.getCountPerPage());
 	}
 	
 	
@@ -91,29 +92,27 @@ public class BaseDaoImpl<T> {
 	 * @param clazz 要生成的对象的class类
 	 * @param subClazz 要生成的对象的子对象的class类
 	 * @param columnName 根据该数组一一对应对象的属性
-	 * @param args 根据该数组设置查询参数
+	 * @param args 根据该list设置查询参数
 	 * @return 返回List<Object>
 	 * @throws Exception
 	 */
-	protected List<T> queryByConditions(String sql,Class<?> clazz,Class<?> subClazz,String[] columnName,String[] args,int currentPage,int countPerPage) throws DaoException {
+	protected List<T> queryByConditions(String sql,Class<?> clazz,Class<?> subClazz,String[] columnName,List<Object> args,int currentPage,int countPerPage) throws DaoException {
 		List<T> list =  new ArrayList<>();
 		DBPoolConnection dbp = new DBPoolConnection();
 		Connection cn = null;
 		PreparedStatement psm = null;
 		ResultSet result = null;
+		if(countPerPage != 0) {
+			if(args == null) {
+				args = new ArrayList<>();
+			}
+			args.add((currentPage-1) * countPerPage);
+			args.add(countPerPage);
+		}
 		try {
 			cn = dbp.getConnection();
 			psm = cn.prepareStatement(sql);
-			int i = 0;
-			if(args != null) {
-				for(;i<args.length;i++) {
-					psm.setString(i+1, args[i]);
-				}		
-			}
-			if(countPerPage != 0) {
-				psm.setInt(i+1, (currentPage-1) * countPerPage);
-				psm.setInt(i+2, countPerPage);
-			}
+			prepareStatementSetValue(psm, args);
 			result = psm.executeQuery();
 			result2List(result,list,clazz,subClazz,columnName);
 		} catch (Exception e) {
@@ -142,7 +141,9 @@ public class BaseDaoImpl<T> {
 	 * @throws Exception
 	 */
 	protected List<T> queryById(String sql,Class<?> clazz,Class<?> subClazz,String[] columnName,String id) throws DaoException {	
-		return queryByConditions(sql, clazz, subClazz, columnName, new String[]{id},0,0);
+		List<Object> args = new ArrayList<>();
+		args.add(id);
+		return queryByConditions(sql, clazz, subClazz, columnName, args,0,0);
 	}
 	
 	/**
@@ -345,12 +346,50 @@ public class BaseDaoImpl<T> {
 				psm.setString(index++, value.toString());
 			} else if (clazz.equals(Double.class)) {
 				psm.setDouble(index++,Double.valueOf(value.toString()));
+			} else if(clazz.equals(int.class)) {
+				psm.setInt(index++,Integer.valueOf(value.toString()));
 			} else if(clazz.equals(java.util.Date.class)) {
 				psm.setDate(index++, DateUtils.date2SqlDate((java.util.Date)value));
 			}
 		}
 		
 	}
+	
+	/**
+	 * 将给定的list值一一对应的设置到PreparedStatement的参数中
+	 * @param psm PreparedStatement对象
+	 * @param obj 对象的基类
+	 * @param attributeStrat 对象的属性从哪里开始与列名一一对应
+	 * @param attributeEnd 对象的属性从哪里结束对应
+	 * @throws IllegalArgumentException
+	 * @throws IllegalAccessException
+	 * @throws SQLException
+	 */
+	protected void prepareStatementSetValue(PreparedStatement psm,List<Object> args) throws Exception {
+		if (args != null) {
+			int index = 1;
+			for (int i=0;i<args.size();i++) {
+				Object value = args.get(i);
+				if(value == null) {
+					psm.setObject(index++, null);
+					continue;
+				}
+				Class<?> clazz = value.getClass();
+				if(clazz.equals(String.class)) {
+					psm.setString(index++, value.toString());
+				} else if (clazz.equals(Double.class)) {
+					psm.setDouble(index++,Double.valueOf(value.toString()));
+				} else if(clazz.equals(int.class)) {
+					psm.setInt(index++,Integer.valueOf(value.toString()));
+				}   else if(clazz.equals(Integer.class)) {
+					psm.setInt(index++,Integer.valueOf(value.toString()));
+				}  else if(clazz.equals(java.util.Date.class)) {
+					psm.setDate(index++, DateUtils.date2SqlDate((java.util.Date)value));
+				}
+			}
+		}
+	}
+
 	
 	/**
 	 * 根据给定的id，修改数据。
@@ -571,12 +610,19 @@ public class BaseDaoImpl<T> {
 	}
 
 
-	public int getCount(String sql, String name) throws DaoException {
+	protected int getCount(String sql, String name) throws DaoException {
 		return getCount(sql, name,null);
 	}
 	
-
-	public int getCount(String sql, String name, String value) throws DaoException {
+	/**
+	 * 获取全部数据量
+	 * @param sql 
+	 * @param name count(1)的别名
+	 * @param args 需要设置的参数
+	 * @return int
+	 * @throws DaoException
+	 */
+	protected int getCount(String sql, String name, List<Object> args) throws DaoException {
 		DBPoolConnection dBP = DBPoolConnection.getInstance();
 		Connection cn = null;
 		PreparedStatement psm = null;
@@ -584,9 +630,7 @@ public class BaseDaoImpl<T> {
 		try {
 			cn = dBP.getConnection();
 			psm = cn.prepareStatement(sql);
-			if(StringUtils.isNotEmpty(value)) {
-				psm.setString(1, value);
-			}
+			prepareStatementSetValue(psm, args);
 			result = psm.executeQuery();
 			if(result.next()) {
 				return result.getInt(name);

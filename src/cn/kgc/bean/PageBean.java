@@ -2,14 +2,14 @@ package cn.kgc.bean;
 
 import java.util.List;
 
-public class PageBeanDto<T> {
+public class PageBean<T> {
 	private List<T> dataList;
 	private int countPerPage = 5;
 	private int totalNumberOfPages;
 	private int currentPage;
 	
 	
-	public PageBeanDto(int dataCount) {
+	public PageBean(int dataCount) {
 		if(dataCount % countPerPage == 0) {
 			this.totalNumberOfPages = dataCount / countPerPage;
 		} else {
@@ -39,24 +39,15 @@ public class PageBeanDto<T> {
 
 
 	public int getCurrentPage() {
-		if(currentPage < 1) {
-			currentPage = 1;
-			return 1;
-		}
-		if(currentPage > totalNumberOfPages) {
-			currentPage = totalNumberOfPages;
-			return totalNumberOfPages;
-		}
 		return currentPage;
 	}
 
 
-	public void setCurrentPage(int currentPage) throws Exception {	
+	public void setCurrentPage(int currentPage) {	
 		this.currentPage = currentPage;
-		if(currentPage < 1) {
+		if(currentPage <= 1) {
 			this.currentPage = 1;
-		}
-		if(currentPage > totalNumberOfPages) {
+		} else if(currentPage > totalNumberOfPages) {
 			this.currentPage = totalNumberOfPages;
 		}
 	}

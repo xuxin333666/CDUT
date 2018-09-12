@@ -11,6 +11,7 @@
 	<form method="post" action="modifyUserPwd" onsubmit="return modifyUserPwd()">
 		<label for="modifyPwdInput">请修改密码后再使用:</label>
 			<input type="password" name="password" id="modifyPwdInput"/>
+			<input type="hidden" name="username" value="${username}">
 			<input type="submit" />
 		</form>
 	</div>

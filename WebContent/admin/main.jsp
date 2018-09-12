@@ -1,3 +1,4 @@
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8" errorPage="/temp/error.jsp"%>
@@ -31,6 +32,9 @@
                 padding: 15px 20px;
                 text-align: right;
             }
+            .row.body {
+            	min-height: 380px;
+            }
         </style>
 
         <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
@@ -43,7 +47,7 @@
     <body>
         <div class="header clearfix">
             <div class="userInfo pull-right">
-                <span class="realName">用户</span>,欢迎您 <span class="userCount">,当前在线人数为2人</span><br>
+                <shiro:principal property="realName"></shiro:principal>,欢迎您 <span class="userCount">,当前在线人数为2人</span><br>
                 <span class="myPointer" onclick="location='http://www.cdut.edu.cn/default.html'">学校首页</span> | 支持论坛 | 帮助中心 | <span class="signOut myPointer">安全退出</span>
             </div>
             <h3>成都理工大学校务管理系统</h3>
@@ -52,7 +56,7 @@
         <div class="navTop"></div>
         <jsp:include page="permissions/nav.jsp"></jsp:include>
         <div class="container-fluid"> 
-            <div class="row">
+            <div class="row body">
                 <div class="col-md-2 col-sm-4 hidden-xs">
 	                <jsp:include page="permissions/menu.jsp"></jsp:include>
                 </div>
