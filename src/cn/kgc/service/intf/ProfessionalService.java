@@ -12,4 +12,6 @@ public interface ProfessionalService {
 
 	PageBean<Professional> query(PageBean<Professional> pageBean, Map<String, String[]> feilds) throws ServiceException;
 
+	String getNewId();
+
 }

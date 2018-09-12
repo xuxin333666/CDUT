@@ -14,6 +14,7 @@ import cn.kgc.exception.ServiceException;
 import cn.kgc.model.Professional;
 import cn.kgc.service.intf.ProfessionalService;
 import cn.kgc.utils.ProfessionalUtils;
+import cn.kgc.utils.StringUtils;
 
 public class ProfessionalServiceImpl implements ProfessionalService {
 	ProfessionalDao professionalDao = new ProfessionalDaoImpl();
@@ -40,6 +41,11 @@ public class ProfessionalServiceImpl implements ProfessionalService {
 			logger.error("[ProfessionalServiceImpl:query]" + e.getMessage());
 			throw new ServiceException(e.getMessage());
 		}
+	}
+
+	@Override
+	public String getNewId() {
+		return StringUtils.createTimeRandomId();
 	}
 
 }

@@ -1,7 +1,10 @@
 package cn.kgc.utils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.Random;
 import java.util.Set;
 
 public class StringUtils {
@@ -28,5 +31,18 @@ public class StringUtils {
 			return strs;
 		}
 		return null;
+	}
+	
+	public static String createTimeRandomId() {
+		StringBuilder sb = new StringBuilder();
+		Date date = new Date();
+		SimpleDateFormat format = new SimpleDateFormat("yyyyMMddHHmmss");
+		sb.append(format.format(date));
+		
+		Random random = new Random();
+		for(int i=0;i<6;i++) {
+			sb.append(random.nextInt(10));
+		}
+		return sb.toString();
 	}
 }

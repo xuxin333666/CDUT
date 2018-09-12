@@ -35,7 +35,7 @@ public class ProfessionalUtils {
 				code = code.replace("10000", "土木工程").replace("10001", "计算机网络技术").replace("10002", "财务管理").replace("10003", "会计电算化");
 				return code + "(" + str + ")";
 			} else if(professionalSystme.equals(rule)) {
-				return code.replace("1", "3年制").replace("2", "4年制").replace("3", "本硕连读").replace("4", "本硕博连读");
+				return code.replace("01", "3年制").replace("02", "4年制").replace("03", "本硕连读").replace("04", "本硕博连读");
 			} else if(professionalStatus.equals(rule)) {
 				return code.replace("1", "启用").replace("0", "停用");
 			}
@@ -48,7 +48,7 @@ public class ProfessionalUtils {
 			if(professionalCode.equals(rule)) {
 				return str.replace("土木工程","10000").replace("计算机网络技术","10001" ).replace("财务管理","10002").replace("会计电算化","10003");
 			} else if(professionalSystme.equals(rule)) {
-				return str.replace("3年制","1").replace("4年制","2").replace("本硕连读","3").replace("本硕博连读","4");
+				return str.replace("3年制","01").replace("4年制","02").replace("本硕连读","03").replace("本硕博连读","04");
 			} else if(professionalStatus.equals(rule)) {
 				return str.replace("启用","1").replace("停用","0");
 			}

@@ -5,18 +5,19 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>Insert title here</title>
+
 </head>
 <body>
 	<div class="row">
 		<div class="col-xs-12">
 			<form method="post" action="javascript: void(0)" class="proForm">
 				<label for="proName">专业名称：</label><input type="text" name="name" id="proName" value="${maps.name[0] }"/>
-				<label class="myMarginLeft20" for="proMinDate">创建日期：</label><input type="text" name="proMinDate" id="proMinDate" value="${maps.proMinDate[0] }"/> —— <input type="text" name="proMaxDate" id="proMaxDate" value="${maps.proMaxDate[0] }"/>
+				<label class="myMarginLeft20" for="proMinDate">创建日期：</label><input  class="span2 dateInput" size="16" type="text" name="proMinDate" id="proMinDate" value="${maps.proMinDate[0] }"/> —— <input class="span2 dateInput" size="16" type="text" name="proMaxDate" id="proMaxDate" value="${maps.proMaxDate[0] }"/>
 				<input class="myMarginLeft20 btn btn-primary " type="submit" value="查询"><input type="hidden" name="page" value="1">
 			</form>
 		</div>
 	</div>
-	<div class="row professionalCt">
+	<div class="row">
 		    <div class="col-xs-12">
 		        <div class="btn-toolbar" role="toolbar" aria-label="...">
 		            <div class="btn-group" role="group" aria-label="...">
@@ -37,13 +38,13 @@
 		</div>
 		
 		<div class="modal fade bs-example-modal-sm professionalModal_modify" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
-		  <div class="modal-dialog modal-sm" role="document">
+		  <div class="modal-dialog" role="document">
 		    <div class="modal-content">
 		     <div class="modal-header">
 		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-		        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+		        <h4 class="modal-title" id="myModalLabel">专业修改</h4>
 		      </div>
-		      <div class="modal-body professionalModalBody_modify" data-url="">
+		      <div class="modal-body professionalModalBody_modify">
 		      </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-default" data-dismiss="modal">退出</button>
@@ -52,12 +53,30 @@
 		    </div>
 		  </div>
 		</div>
-		<div class="row">
+		<div class="row  professionalCt">
 		<jsp:include page="../../temp/table.jsp"></jsp:include>
 	    </div>
-	
-	
+
 	<script>
+
+	$('.dateInput').datetimepicker({
+		format:"yyyy-mm-dd",
+
+	    weekStart: 1,
+
+	    todayBtn:  1,
+
+		autoclose: 1,
+
+		todayHighlight: 1,
+
+		startView: 2,
+
+		forceParse: 0,
+
+	    showMeridian: 1
+
+	    });
 	
 	$(".proForm").on("submit",function() {
 		var $inputs = $(this).find("input");
@@ -78,16 +97,16 @@
 
 	$(".professional_add").on("click",function() {
 		$('.professionalModal_modify').modal();
-		$(".professionalModalBody_modify").load($(".professionalModalBody_modify").attr("data-url"));
+		$(".professionalModalBody_modify").load("permissions/professional/pro_add");
 	})
 
 	$(".professional_modify").on("click",function() {
 		var flag = true;
-		$(".professionalCt .selectItem").each(function(){
+		$(".professionalCt").find(".selectItem").each(function(){
 			if(this.checked) {
 				var id = $(this).val();
 				$('.professionalModal_modify').modal();
-				$(".professionalModalBody_modify").load($(".modifyStudentModalBody").attr("data-url") + "?id=" + id);
+				$(".professionalModalBody_modify").load("permissions/professional/pro_modify?id=" + id);
 				flag = false;
 				return;
 			};

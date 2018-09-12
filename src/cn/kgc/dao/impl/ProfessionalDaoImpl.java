@@ -52,10 +52,10 @@ public class ProfessionalDaoImpl extends BaseDaoImpl<Professional> implements Pr
 			String value = feilds.get(key)[0];
 			if(StringUtils.isNotEmpty(value) && !"page".equals(key)) {
 				if("proMinDate".equals(key)) {
-					sb.append(" AND date > ?");
+					sb.append(" AND date >= ?");
 					args.add(DateUtils.String2Date(value));
 				} else if("proMaxDate".equals(key)) {
-					sb.append(" AND date < ?");
+					sb.append(" AND date <= ?");
 					args.add(DateUtils.String2Date(value));
 				} else {
 					sb.append(" AND " + key + " LIKE ?");

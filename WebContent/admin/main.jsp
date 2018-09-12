@@ -15,6 +15,7 @@
         <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/buttons.css">
         <link rel="stylesheet" href="${pageContext.request.contextPath}/css/index.css">
+        <link href="${pageContext.request.contextPath }/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 
         <style type="text/css">
             .icon {
@@ -86,6 +87,10 @@
     <script src="${pageContext.request.contextPath}/lib/bootstrap.min.js"></script>
 
     <script src="${pageContext.request.contextPath}/js/main.js"></script>
+    
+	<script src="${pageContext.request.contextPath }/lib/bootstrap-datetimepicker.min.js"></script>
+	
+	<script src="${pageContext.request.contextPath }/lib/locales/bootstrap-datetimepicker.fr.js"></script>
     
     <script src="http://at.alicdn.com/t/font_783692_gfwpqhoo67.js"></script>
     
