@@ -1,4 +1,4 @@
-package cn.kgc.controller.professional;
+package cn.kgc.controller.group;
 
 import java.io.IOException;
 
@@ -12,22 +12,22 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cn.kgc.exception.ServiceException;
-import cn.kgc.model.Professional;
-import cn.kgc.service.impl.ProfessionalServiceImpl;
-import cn.kgc.service.intf.ProfessionalService;
-import cn.kgc.utils.ProfessionalUtils;
+import cn.kgc.model.Group;
+import cn.kgc.service.impl.GroupServiceImpl;
+import cn.kgc.service.intf.GroupService;
+import cn.kgc.utils.GroupUtils;
 
 
 
-@WebServlet("/admin/permissions/professional/pro_modify")
-public class ProModifyProfessionalController extends HttpServlet {
+@WebServlet("/admin/permissions/group/pro_modify")
+public class ProModifyGroupController extends HttpServlet {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private static final Logger logger = LoggerFactory.getLogger(ProModifyProfessionalController.class); 
+	private static final Logger logger = LoggerFactory.getLogger(ProModifyGroupController.class); 
 	
 
 	@Override
@@ -37,17 +37,17 @@ public class ProModifyProfessionalController extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		ProfessionalService professionalService = new ProfessionalServiceImpl();
+		GroupService groupService = new GroupServiceImpl();
 		String id = req.getParameter("id");
-		Professional pro;
+		Group group;
 		try {
-			pro = professionalService.query(id);
-			req.setAttribute("pro", pro);
-			req.setAttribute("selectMap", ProfessionalUtils.selectMap);
+			group = groupService.query(id);
+			req.setAttribute("group", group);
+			req.setAttribute("selectMap", GroupUtils.selectMap);
 			req.setAttribute("command", "modify");
 			req.getRequestDispatcher("pro_modify.jsp").forward(req, resp);
 		} catch (ServiceException e) {
-			logger.error("[ProModifyProfessionalController:doPost]" + e.getMessage());
+			logger.error("[ProModifyGroupController:doPost]" + e.getMessage());
 			req.setAttribute("msg", e.getMessage());
 			req.getRequestDispatcher("/error.jsp").forward(req, resp);
 		}

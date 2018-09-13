@@ -9,7 +9,7 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
         <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-        <title>成都理工大学校务管理系统</title>
+        <title>成都理工大学网络信息化平台</title>
 
         <!-- Bootstrap -->
         <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
@@ -51,10 +51,9 @@
                 <shiro:principal property="realName"></shiro:principal>,欢迎您 <span class="userCount">,当前在线人数为2人</span><br>
                 <span class="myPointer" onclick="location='http://www.cdut.edu.cn/default.html'">学校首页</span> | 支持论坛 | 帮助中心 | <span class="signOut myPointer">安全退出</span>
             </div>
-            <h3>成都理工大学校务管理系统</h3>
+            <h3>成都理工大学网络信息化平台</h3>
 
         </div>		
-        <div class="navTop"></div>
         <jsp:include page="permissions/nav.jsp"></jsp:include>
         <div class="container-fluid"> 
             <div class="row body">

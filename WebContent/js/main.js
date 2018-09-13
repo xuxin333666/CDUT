@@ -46,37 +46,6 @@ $(".mainContentTabs").on("click",function() {
 })
 
 
-
-		
-
-//导航条随屏幕移动
-var $block = $('.navTop');
-var $jumbotron = $('.navTop');
-var $sub = $('.navbar.navbar-default');
-
-function isVisible(){
-    return ($block.offset().top  + $block.outerHeight()) <=($(window).height()+$(window).scrollTop())&& ($block.offset().top  + $block.outerHeight())  >=$(window).scrollTop()
-}
-
-$(window).bind('scroll',function() {
-    if(isVisible()){
-        if($sub.hasClass('navbar-fixed-top')) {
-            $sub.removeClass('navbar-fixed-top');
-            $jumbotron.removeClass('marginBottom');
-            
-        }
-        
-    } else {
-        if(!($sub.hasClass('navbar-fixed-top'))) {
-            $sub.addClass('navbar-fixed-top');
-            $jumbotron.addClass('marginBottom');
-        }
-        
-    };
-})
-
-
-
 //导航栏bing查询
 $(".searchForm").on("submit",function() {
 	event.preventDefault();
@@ -112,4 +81,28 @@ function refreshTable(name) {
 			a.parents(".panel").removeClass("panel-info").addClass("panel-primary");
 		}
 	})
+	
+	
+	//刷新主要内容框架的方法
+	function refreshFrame(name,args) {
+		var str = args || "";
+		$('.tab-content>div[data-name='+ name +']').load($('.tab-content>div[data-name='+ name +']').attr("data-url") + str);
+	}
+	
+	//tab点击监听
+	$(".mainContentTabs").on("click",function() {
+		var tabName = $(event.target).parent().attr("data-name");
+		refreshFrame(tabName);
+	})
+	
+	//将用户选择的表格行数的val装入数组
+	function select2Arr(str) {
+		var idArr = [];
+		$(str).each(function(){
+			if(this.checked) {
+				idArr.push($(this).val());
+			};
+		});
+		return idArr
+	}
 

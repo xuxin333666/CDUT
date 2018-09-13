@@ -438,6 +438,7 @@ public class BaseDaoImpl<T> {
 			psm.setString(columnName.length, id);
 			return psm.executeUpdate();	
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.error("[BaseDaoImpl:updateById:数据库错误]" + e.getMessage());
 			throw new DaoException(SQL_ERORR + e.getMessage());
 		} finally {
@@ -608,6 +609,47 @@ public class BaseDaoImpl<T> {
 			}	
 		}
 	}
+	
+	
+	/**
+	 * 给定id集合，批量添加给定字段的值
+	 * @param sql
+	 * @param idArr id集合
+	 * @param arg 字段的值
+	 * @return
+	 */
+	protected int updateById(String sql, List<String> idArr, String arg) throws DaoException  {
+		DBPoolConnection dBP = DBPoolConnection.getInstance();
+		Connection cn = null;
+		PreparedStatement psm = null;
+		try {
+			cn = dBP.getConnection();
+			cn.setAutoCommit(false);
+			for(int i=0;i<idArr.size();i++) {
+				psm = cn.prepareStatement(sql);
+				psm.setString(1, arg);
+				psm.setString(2, idArr.get(i));
+				psm.executeUpdate();	
+				if(i == 1000) {
+					cn.commit();
+				}
+			}
+			cn.commit();
+			return 1;
+		} catch (Exception e) {
+			logger.error("[BaseDaoImpl:deleteById:数据库错误]" + e.getMessage());
+			throw new DaoException(SQL_ERORR + e.getMessage());
+		} finally {
+			if(cn != null) {
+				try {
+					cn.close();
+				} catch (SQLException e) {
+					logger.error("[BaseDaoImpl:updateById:数据库连接关闭错误]" + e.getMessage());
+					throw new DaoException(SQL_ERORR + e.getMessage());
+				}
+			}	
+		}
+	}
 
 
 	protected int getCount(String sql, String name) throws DaoException {
@@ -650,6 +692,8 @@ public class BaseDaoImpl<T> {
 			}	
 		}
 	}
+
+
 
 
 

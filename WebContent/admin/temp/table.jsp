@@ -20,7 +20,13 @@
 					<tr><td class="selectCt"><input type="checkbox" class="selectItem" name="selectItem" value="${item.id}"></td>
 					<td><%=i++ %></td>
 					<c:forEach items="${fields}" var="field">
-						<td>${item[field]}</td>
+						<c:if test="${field.startsWith('#') }">
+							<c:set value="${field.split('#')}" var="arrs"></c:set>
+							<td>${item[arrs[1]][arrs[2]]}</td>
+						</c:if>
+						<c:if test="${!field.startsWith('#') }">
+							<td>${item[field]}</td>
+						</c:if>
 					</c:forEach>
 					</tr>
 				</c:forEach>

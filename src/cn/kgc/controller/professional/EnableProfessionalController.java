@@ -1,6 +1,7 @@
 package cn.kgc.controller.professional;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,24 +12,23 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.alibaba.fastjson.JSONArray;
+
 import cn.kgc.exception.ServiceException;
-import cn.kgc.model.Professional;
 import cn.kgc.service.impl.ProfessionalServiceImpl;
 import cn.kgc.service.intf.ProfessionalService;
-import cn.kgc.utils.ProfessionalUtils;
 
 
 
-@WebServlet("/admin/permissions/professional/pro_modify")
-public class ProModifyProfessionalController extends HttpServlet {
+@WebServlet("/admin/permissions/professional/enable")
+public class EnableProfessionalController extends HttpServlet {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private static final Logger logger = LoggerFactory.getLogger(ProModifyProfessionalController.class); 
-	
+	private static final Logger logger = LoggerFactory.getLogger(EnableProfessionalController.class); 
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -38,20 +38,19 @@ public class ProModifyProfessionalController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		ProfessionalService professionalService = new ProfessionalServiceImpl();
-		String id = req.getParameter("id");
-		Professional pro;
+		
+		String idArrStr = req.getParameter("data");
+		
+		List<String> idArr = JSONArray.parseArray(idArrStr,String.class);
+		
+		int status = 0;
 		try {
-			pro = professionalService.query(id);
-			req.setAttribute("pro", pro);
-			req.setAttribute("selectMap", ProfessionalUtils.selectMap);
-			req.setAttribute("command", "modify");
-			req.getRequestDispatcher("pro_modify.jsp").forward(req, resp);
+			status = professionalService.enable(idArr);
 		} catch (ServiceException e) {
-			logger.error("[ProModifyProfessionalController:doPost]" + e.getMessage());
-			req.setAttribute("msg", e.getMessage());
-			req.getRequestDispatcher("/error.jsp").forward(req, resp);
+			logger.error("[EnableProfessionalController:doPost]" + e.getMessage());
 		}
-
+		
+		resp.getWriter().print(status);
 	}
 	
 	

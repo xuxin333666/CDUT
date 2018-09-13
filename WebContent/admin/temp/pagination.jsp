@@ -21,7 +21,7 @@
         <span aria-hidden="true">&laquo;</span>
       </a>
     </li>
-	    <li><a href="javascript: void(0)" class="studentCurrentPage" data-currentPage="${pageBean.currentPage}">-</a></li>
+	    <li><a href="javascript: void(0)" class="currentPage" data-currentPage="${pageBean.currentPage}">-</a></li>
     <li>
       <a href="javascript: void(0)" aria-label="Next" onclick="refreshTable(${pageBean.currentPage + 1})">
         <span aria-hidden="true">&raquo;</span>

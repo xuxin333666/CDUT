@@ -17,6 +17,7 @@ import cn.kgc.exception.ServiceException;
 import cn.kgc.model.Professional;
 import cn.kgc.service.impl.ProfessionalServiceImpl;
 import cn.kgc.service.intf.ProfessionalService;
+import cn.kgc.utils.ProfessionalUtils;
 import cn.kgc.utils.StringUtils;
 
 
@@ -56,8 +57,8 @@ public class ProfessionalController extends HttpServlet {
 		}
 		req.setAttribute("pageBean", pageBean);
 		req.setAttribute("maps", feilds);
-		req.setAttribute("columnNames", new String[]{"序号","专业编号","专业名称","专业代码","专业英文名","创建日期","学制","总学分","教师人数","状态"});
-		req.setAttribute("fields", new String[]{"id","name","code","nameEn","date","eductionalSystme","totalScore","teatherCount","status"});
+		req.setAttribute("columnNames", ProfessionalUtils.colName);
+		req.setAttribute("fields", ProfessionalUtils.fields);
 		
 		req.getRequestDispatcher("professional.jsp").forward(req, resp);
 	}

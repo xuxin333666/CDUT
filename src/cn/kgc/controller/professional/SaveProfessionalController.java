@@ -11,23 +11,23 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.alibaba.fastjson.JSON;
+
 import cn.kgc.exception.ServiceException;
 import cn.kgc.model.Professional;
 import cn.kgc.service.impl.ProfessionalServiceImpl;
 import cn.kgc.service.intf.ProfessionalService;
-import cn.kgc.utils.ProfessionalUtils;
 
 
 
-@WebServlet("/admin/permissions/professional/pro_modify")
-public class ProModifyProfessionalController extends HttpServlet {
+@WebServlet("/admin/permissions/professional/save")
+public class SaveProfessionalController extends HttpServlet {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	
-	private static final Logger logger = LoggerFactory.getLogger(ProModifyProfessionalController.class); 
+	private static final Logger logger = LoggerFactory.getLogger(SaveProfessionalController.class); 
 	
 
 	@Override
@@ -38,20 +38,22 @@ public class ProModifyProfessionalController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		ProfessionalService professionalService = new ProfessionalServiceImpl();
-		String id = req.getParameter("id");
-		Professional pro;
+		String command = req.getParameter("command");
+		String data = req.getParameter("data");
+		
+		Professional pro = JSON.parseObject(data, Professional.class);
+		int status = 0;
 		try {
-			pro = professionalService.query(id);
-			req.setAttribute("pro", pro);
-			req.setAttribute("selectMap", ProfessionalUtils.selectMap);
-			req.setAttribute("command", "modify");
-			req.getRequestDispatcher("pro_modify.jsp").forward(req, resp);
+			if("add".equals(command)) {
+					status = professionalService.add(pro);
+			} else if("modify".equals(command)) {
+				status = professionalService.modify(pro);
+			}
 		} catch (ServiceException e) {
-			logger.error("[ProModifyProfessionalController:doPost]" + e.getMessage());
-			req.setAttribute("msg", e.getMessage());
-			req.getRequestDispatcher("/error.jsp").forward(req, resp);
+			logger.error("[SaveProfessionalController:doPost]" + e.getMessage());
 		}
-
+		
+		resp.getWriter().println(status);
 	}
 	
 	

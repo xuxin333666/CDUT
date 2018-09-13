@@ -1,4 +1,4 @@
-package cn.kgc.controller.professional;
+package cn.kgc.controller.group;
 
 import java.io.IOException;
 
@@ -8,15 +8,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import cn.kgc.model.Professional;
-import cn.kgc.service.impl.ProfessionalServiceImpl;
-import cn.kgc.service.intf.ProfessionalService;
-import cn.kgc.utils.ProfessionalUtils;
+import cn.kgc.model.Group;
+import cn.kgc.service.impl.GroupServiceImpl;
+import cn.kgc.service.intf.GroupService;
+import cn.kgc.utils.GroupUtils;
 
 
 
-@WebServlet("/admin/permissions/professional/pro_add")
-public class ProAddProfessionalController extends HttpServlet {
+@WebServlet("/admin/permissions/group/pro_add")
+public class ProAddGroupController extends HttpServlet {
 
 	/**
 	 * 
@@ -31,11 +31,11 @@ public class ProAddProfessionalController extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		ProfessionalService professionalService = new ProfessionalServiceImpl();
-		String id = professionalService.getNewId();
+		GroupService groupService = new GroupServiceImpl();
+		String id = groupService.getNewId();
 
-		req.setAttribute("pro", new Professional(id));
-		req.setAttribute("selectMap", ProfessionalUtils.selectMap);
+		req.setAttribute("group", new Group(id));
+		req.setAttribute("selectMap", GroupUtils.selectMap);
 		req.setAttribute("command", "add");
 		req.getRequestDispatcher("pro_modify.jsp").forward(req, resp);
 	}

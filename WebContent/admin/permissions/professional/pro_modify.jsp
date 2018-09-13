@@ -9,52 +9,58 @@
 </head>
 	<body> 
 		<form class="form-horizontal">
-		<c:if test="${id != null}">
-				 <div class="form-group">
-					    <div class="col-sm-6">
-					 	 <label for="pro_id" class="control-label">编号：</label>
-					      <input type="text" class="form-control" id="pro_id" value="${id }" readonly>
-					    </div>
-					    <div class="col-sm-6">
-					    <label for="pro_code" class="control-label">专业代码：</label>
-					      <input type="text" class="form-control" id="pro_code">
-					    </div>
-				  </div>
-				  
-				  <div class="form-group">
-					    <div class="col-sm-6">
-					 	 <label for="pro_name" class="control-label">专业名称：</label>
-					      <input type="text" class="form-control" id="pro_name">
-					    </div>
-					    <div class="col-sm-6">
-					    <label for="pro_nameEn" class="control-label">专业英文名称：</label>
-					      <input type="text" class="form-control" id="pro_nameEn">
-					    </div>
-				  </div>	
-				  
-				  <div class="form-group">
-					    <div class="col-sm-6">
-					 	 <label for="pro_date" class="control-label">创建日期：</label>
-					      <input type="text" class="form-control pro_date span2"  size="16" id="pro_date">
-					    </div>
-					    <div class="col-sm-6">
-					    <label for="pro_eductionalSystme" class="control-label">学制：</label>
-					      <input type="text" class="form-control" id="pro_eductionalSystme">
-					    </div>
-				  </div>	
-				  
-				  <div class="form-group">
-					    <div class="col-sm-6">
-					 	 <label for="pro_totalScore" class="control-label">总学分：</label>
-					      <input type="text" class="form-control" id="pro_totalScore">
-					    </div>
-					    <div class="col-sm-6">
-					    <label for="pro_teatherCount" class="control-label">教师人数：</label>
-					      <input type="text" class="form-control" id="pro_teatherCount">
-					    </div>
-				  </div>	
-		 
-		</c:if>
+			 <div class="form-group">
+				    <div class="col-sm-6">
+				 	 <label for="pro_id" class="control-label">编号：</label>
+				      <input type="text" class="form-control" name="id" id="pro_id" value="${pro.id }" readonly>
+				    </div>
+				    <div class="col-sm-6">
+				    <label for="pro_code" class="control-label">专业代码：</label>
+				    <select class="form-control" name="code" id="pro_code">
+				    <c:forEach items="${selectMap.code }" var="code">
+				    	<option value="${code.key }">${code.value }</option>
+				    </c:forEach>
+				    </select>
+				    </div>
+			  </div>
+			  
+			  <div class="form-group">
+				    <div class="col-sm-6">
+				 	 <label for="pro_name" class="control-label">专业名称：</label>
+				      <input type="text" class="form-control" name="name" id="pro_name" value="${pro.name}">
+				    </div>
+				    <div class="col-sm-6">
+				    <label for="pro_nameEn" class="control-label">专业英文名称：</label>
+				      <input type="text" class="form-control" name="nameEn" id="pro_nameEn" value="${pro.nameEn }">
+				    </div>
+			  </div>	
+			  
+			  <div class="form-group">
+				    <div class="col-sm-6">
+				 	 <label for="pro_date" class="control-label">创建日期：</label>
+				      <input type="text" class="form-control pro_date span2" name="date" size="16" id="pro_date" value="${pro.date }">
+				    </div>
+				    <div class="col-sm-6">
+				    <label for="pro_eductionalSystme" class="control-label">学制：</label>
+				     <select class="form-control" name="eductionalSystme" id="pro_eductionalSystme">
+				    <c:forEach items="${selectMap.eductionalSystme }" var="eductionalSystme">
+				    	<option value="${eductionalSystme.key }">${eductionalSystme.value }</option>
+				    </c:forEach>
+				    </select>
+				    </div>
+			  </div>	
+			  
+			  <div class="form-group">
+				    <div class="col-sm-6">
+				 	 <label for="pro_totalScore" class="control-label">总学分：</label>
+				      <input type="text" class="form-control" name="totalScore" id="pro_totalScore" value="${pro.totalScore }">
+				    </div>
+				    <div class="col-sm-6">
+				    <label for="pro_teatherCount" class="control-label">教师人数：</label>
+				      <input type="text" class="form-control" id="pro_teatherCount" name="teatherCount" value="${pro.teatherCount }">
+				    </div>
+			  </div>	
+				       <input type="hidden" name="command" value="${command }"/>
 		</form>
 	</body>
 	<script>
@@ -76,6 +82,13 @@
 	    showMeridian: 1
 
 	    });
+	
+	var codeId = '${pro.code}' || '10000';
+	var eductionalSystmeId = '${pro.eductionalSystme}' || '01';
+	
+	$("#pro_code").val(codeId);
+	$("#pro_eductionalSystme").val(eductionalSystmeId);
+	
 	
 	</script>
 	

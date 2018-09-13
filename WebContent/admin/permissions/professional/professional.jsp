@@ -10,7 +10,7 @@
 <body>
 	<div class="row">
 		<div class="col-xs-12">
-			<form method="post" action="javascript: void(0)" class="proForm">
+			<form method="post" action="javascript:void(0)" class="proForm">
 				<label for="proName">专业名称：</label><input type="text" name="name" id="proName" value="${maps.name[0] }"/>
 				<label class="myMarginLeft20" for="proMinDate">创建日期：</label><input  class="span2 dateInput" size="16" type="text" name="proMinDate" id="proMinDate" value="${maps.proMinDate[0] }"/> —— <input class="span2 dateInput" size="16" type="text" name="proMaxDate" id="proMaxDate" value="${maps.proMaxDate[0] }"/>
 				<input class="myMarginLeft20 btn btn-primary " type="submit" value="查询"><input type="hidden" name="page" value="1">
@@ -58,7 +58,24 @@
 	    </div>
 
 	<script>
-
+	
+	function submitProForm() {
+		var $inputs = $(".proForm").find("input");
+		var str = "?";
+		$inputs.each(function(k,v) {
+			if($(this).attr("type") != "submit") {
+				str += $(this).attr("name") + "=" + $(this).val() + "&";
+			}
+		})
+		refreshFrame("专业管理",str);
+	}
+	
+		$(".proForm").on("submit",submitProForm);
+		
+		function refreshTable(page) {
+			$(".proForm").find("input[type=hidden]").val(page);
+			submitProForm();
+		}
 	$('.dateInput').datetimepicker({
 		format:"yyyy-mm-dd",
 
@@ -77,23 +94,7 @@
 	    showMeridian: 1
 
 	    });
-	
-	$(".proForm").on("submit",function() {
-		var $inputs = $(this).find("input");
-		event.preventDefault();
-		var str = "?";
-		$inputs.each(function(k,v) {
-			if($(this).attr("type") != "submit") {
-				str += $(this).attr("name") + "=" + $(this).val() + "&";
-			}
-		})
-		$('.tab-content>div[data-name="专业管理"]').load($('.tab-content>div[data-name="专业管理"]').attr("data-url") + str);
-	})
-	
-	function refreshTable(page) {
-		$(".proForm").find("input[type=hidden]").val(page);
-		$(".proForm")[0].submit();
-	}
+
 
 	$(".professional_add").on("click",function() {
 		$('.professionalModal_modify').modal();
@@ -119,12 +120,7 @@
 	})
 	
 	$(".professional_del").on("click",function() {
-		var idArr = [];
-		$(".professionalCt .selectItem").each(function(){
-			if(this.checked) {
-				idArr.push($(this).val());
-			};
-		});
+		var idArr = select2Arr(".professionalCt .selectItem");
 		if(idArr.length == 0) {
 			alert("请选择至少一个行内容再删除");
 			return;
@@ -133,43 +129,98 @@
 			var data = JSON.stringify(idArr);
 			$.ajax({
 				type: "post",
-				url: "",
-				data: data,
+				url: "permissions/professional/dels",
+				data: {data:data},
 				dataType: "JSON",
 				success: function(msg) {
-					if(msg.status != 0 ) {
-						refreshTable($(".studentCurrentPage").attr("data-currentPage"));
+					if(msg != 0 ) {
+						refreshTable($(".currentPage").attr("data-currentPage"));
+					} else {
+						alert("未知原因，删除失败");
 					}
 				}
 			})
 		}
 	})
 	
-	/*
 	$(".saveChangeBtn").on("click",function(){
-		var filed = ["id","name","sex","age","score"];
-		var data = {id:"",name:"",sex:"",age:"",score:"",group:group};
-		$(".modifyStudentModalBody").find("input").each(function(i,v){
-			data[filed[i]] = $(this).val();
+		var data = {};
+		var command = "";
+		$(".professionalModalBody_modify").find("input,select").each(function(i,v){
+			if($(this).attr("type") != "hidden") {
+			data[$(this).attr("name")] = $(this).val();
+			} else {
+				command =  $(this).val();
+			}
 		})
-		var obj = {command:"addSt",data:JSON.stringify(data)};
-		
+		data = JSON.stringify(data);
+		var obj = {command:command,data:data};
 		$.ajax({
-			type: "get",
-			url: "/TestWeb/st",
+			type: "post",
+			url: "permissions/professional/save",
 			data: obj,
 			dataType: "json",
 			success: function(msg){
-				if(msg.status != 0) {
-					$('.modifyStudentModal').modal('toggle');
-					refreshSt_jspTable($(".studentCurrentPage").attr("data-currentPage"));
+				if(msg != 0) {
+					$('.professionalModal_modify').modal('toggle');
+					setTimeout(function() {
+						refreshTable($(".currentPage").attr("data-currentPage"));
+					},300);
 				}else {
 					alert("修改保存失败");
 				}
 			}
 		});
 	})
-	*/
+	
+	
+	$(".professional_enable").on("click",function() {
+		var idArr = select2Arr(".professionalCt .selectItem");
+		if(idArr.length == 0) {
+			alert("请选择至少一个行内容再启用");
+			return;
+		}
+		if(confirm("请确认要启用该专业?")) {
+			var data = JSON.stringify(idArr);
+			$.ajax({
+				type: "post",
+				url: "permissions/professional/enable",
+				data: {data:data},
+				dataType: "json",
+				success: function(msg){
+					if(msg != 0) {
+						refreshTable($(".currentPage").attr("data-currentPage"));
+					}else {
+						alert("专业启用失败");
+					}
+				}
+			});
+		}
+	})
+	
+	$(".professional_disable").on("click",function() {
+		var idArr = select2Arr(".professionalCt .selectItem");
+		if(idArr.length == 0) {
+			alert("请选择至少一个行内容再停用");
+			return;
+		}
+		if(confirm("请确认要停用该专业?若还存在班级使用该专业，将不能删除!")) {
+			var data = JSON.stringify(idArr);
+			$.ajax({
+				type: "post",
+				url: "permissions/professional/disable",
+				data: {data:data},
+				dataType: "json",
+				success: function(msg){
+					if(msg != 0) {
+						refreshTable($(".currentPage").attr("data-currentPage"));
+					}else {
+						alert("专业停用失败");
+					}
+				}
+			});
+		}
+	})
 	
 	</script>
 </body>
