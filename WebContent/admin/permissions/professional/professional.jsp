@@ -210,13 +210,9 @@
 				type: "post",
 				url: "permissions/professional/disable",
 				data: {data:data},
-				dataType: "json",
 				success: function(msg){
-					if(msg != 0) {
-						refreshTable($(".currentPage").attr("data-currentPage"));
-					}else {
-						alert("专业停用失败");
-					}
+					alert(msg);
+					refreshTable($(".currentPage").attr("data-currentPage"));
 				}
 			});
 		}

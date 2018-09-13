@@ -1,5 +1,7 @@
 package cn.kgc.service.impl;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -7,7 +9,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import cn.kgc.bean.PageBean;
+import cn.kgc.dao.impl.GroupDaoImpl;
 import cn.kgc.dao.impl.ProfessionalDaoImpl;
+import cn.kgc.dao.intf.GroupDao;
 import cn.kgc.dao.intf.ProfessionalDao;
 import cn.kgc.exception.DaoException;
 import cn.kgc.exception.ServiceException;
@@ -100,8 +104,40 @@ public class ProfessionalServiceImpl implements ProfessionalService {
 
 	@Override
 	public int disable(List<String> idArr) throws ServiceException {
-		// TODO Auto-generated method stub
-		return 0;
+		List<String> errorList = new ArrayList<>();
+		Map<String, String[]> maps = new HashMap<>();
+		GroupDao groupDao = new GroupDaoImpl();
+		int status = 0;
+		for (String id : idArr) {
+			maps.put("p.id", new String[]{id});
+			try {
+				int count = groupDao.getCount(maps);
+				if(count != 0) {
+					errorList.add(id);
+				}
+			} catch (DaoException e) {
+				logger.error("[ProfessionalServiceImpl:disable]" + e.getMessage());
+				throw new ServiceException(e.getMessage());
+			}
+		}
+		idArr.removeAll(errorList);
+		
+		try {
+			status = professionalDao.updates(idArr, "02");
+		} catch (DaoException e) {
+			logger.error("[ProfessionalServiceImpl:disable]" + e.getMessage());
+			throw new ServiceException(e.getMessage());
+		}
+		
+		if(errorList.size() != 0 ) {
+			StringBuilder sb = new StringBuilder();
+			sb.append("如下专业无法删除，请检查是否含有班级：\n");
+			for (String id : errorList) {
+				sb.append("专业编号： " + id + "\n");
+			}
+			throw new ServiceException(sb.toString());
+		}
+		return status;
 	}
 	
 

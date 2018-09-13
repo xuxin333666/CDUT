@@ -43,14 +43,15 @@ public class DisableProfessionalController extends HttpServlet {
 		
 		List<String> idArr = JSONArray.parseArray(idArrStr,String.class);
 		
-		int status = 0;
+		String msg = "";
 		try {
-			status = professionalService.disable(idArr);
+			professionalService.disable(idArr);
+			msg = "Õ£”√≥…π¶";
 		} catch (ServiceException e) {
 			logger.error("[DisableProfessionalController:doPost]" + e.getMessage());
+			msg = e.getMessage();
 		}
-		
-		resp.getWriter().print(status);
+		resp.getWriter().print(msg);
 	}
 	
 	

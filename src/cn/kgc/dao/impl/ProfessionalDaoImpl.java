@@ -68,7 +68,7 @@ public class ProfessionalDaoImpl extends BaseDaoImpl<Professional> implements Pr
 
 	@Override
 	public int insert(Professional pro) throws DaoException {
-		return insert("INSERT INTO t_professional VALUES (?,?,?,?,?,?,?,?,1)", pro, 0, 7);
+		return insert("INSERT INTO t_professional VALUES (?,?,?,?,?,?,?,?,'01')", pro, 0, 7);
 	}
 
 	@Override
