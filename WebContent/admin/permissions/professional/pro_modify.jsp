@@ -38,7 +38,7 @@
 			  <div class="form-group">
 				    <div class="col-sm-6">
 				 	 <label for="pro_date" class="control-label">创建日期：</label>
-				      <input type="text" class="form-control pro_date span2" name="date" size="16" id="pro_date" value="${pro.date }">
+				      <input type="text" class="form-control pro_date span2" autocomplete="off" name="date" size="16" id="pro_date" value="${pro.date }" readonly>
 				    </div>
 				    <div class="col-sm-6">
 				    <label for="pro_eductionalSystme" class="control-label">学制：</label>
@@ -79,7 +79,12 @@
 
 		forceParse: 0,
 
-	    showMeridian: 1
+	    showMeridian: 1,
+	    
+	    minView: 2,
+	    
+	    language: "zh-CN"
+
 
 	    });
 	

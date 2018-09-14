@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import cn.kgc.model.Group;
+import cn.kgc.model.Professional;
 import cn.kgc.service.impl.GroupServiceImpl;
 import cn.kgc.service.intf.GroupService;
 import cn.kgc.utils.GroupUtils;
@@ -32,9 +33,13 @@ public class ProAddGroupController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		GroupService groupService = new GroupServiceImpl();
+		String pid = req.getParameter("pid");
 		String id = groupService.getNewId();
-
-		req.setAttribute("group", new Group(id));
+		
+		Group group = new Group(id);
+		group.setProfessional(new Professional(pid));
+		
+		req.setAttribute("group", group);
 		req.setAttribute("selectMap", GroupUtils.selectMap);
 		req.setAttribute("command", "add");
 		req.getRequestDispatcher("pro_modify.jsp").forward(req, resp);

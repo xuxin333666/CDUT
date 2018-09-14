@@ -23,7 +23,7 @@
 			  <div class="form-group">
 				    <div class="col-sm-6">
 				 	<label for="group_date" class="control-label">建班日期：</label>
-				      <input type="text" class="form-control group_date span2" name="date" size="16" id="group_date" value="${group.date }">
+				      <input type="text" class="form-control group_date span2" autocomplete="off" name="date" size="16" id="group_date" value="${group.date }" readonly>
 				    </div>
 				    <div class="col-sm-6">
 				    <label for="group_groupManager" class="control-label">班主任：</label>
@@ -42,6 +42,7 @@
 				    </div>
 			   </div>
 				    <input type="hidden" name="command" value="${command }"/>
+				    <input type="hidden" name="pid" value="${group.professional.id }"/>
 		</form>
 	</body>
 	<script>
@@ -60,7 +61,11 @@
 
 		forceParse: 0,
 
-	    showMeridian: 1
+	    showMeridian: 1,
+	    
+	    minView: 2,
+	    
+	    language: "zh-CN"
 
 	    });
 	

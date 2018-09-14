@@ -10,9 +10,9 @@
 <body>
 	<div class="row">
 		<div class="col-xs-12">
-			<form method="post" action="javascript:void(0)" class="proForm">
-				<label for="proName">专业名称：</label><input type="text" name="name" id="proName" value="${maps.name[0] }"/>
-				<label class="myMarginLeft20" for="proMinDate">创建日期：</label><input  class="span2 dateInput" size="16" type="text" name="proMinDate" id="proMinDate" value="${maps.proMinDate[0] }"/> —— <input class="span2 dateInput" size="16" type="text" name="proMaxDate" id="proMaxDate" value="${maps.proMaxDate[0] }"/>
+			<form method="post" action="javascript:void(0)" class="form-inline proForm">
+				<label for="proName">专业名称：</label><input type="text" name="name" id="proName" class="form-control" value="${maps.name[0] }"/>
+				<label class="myMarginLeft20" for="proMinDate">创建日期：</label><input  class="form-control span2 dateInput" autocomplete="off" size="16" type="text" name="proMinDate" id="proMinDate" value="${maps.proMinDate[0] }" readonly/> —— <input class="form-control span2 dateInput" autocomplete="off" size="16" type="text" name="proMaxDate" id="proMaxDate" value="${maps.proMaxDate[0] }" readonly/>
 				<input class="myMarginLeft20 btn btn-primary " type="submit" value="查询"><input type="hidden" name="page" value="1">
 			</form>
 		</div>
@@ -91,7 +91,11 @@
 
 		forceParse: 0,
 
-	    showMeridian: 1
+	    showMeridian: 1,
+	    
+	    minView: 2,
+	    
+	    language: "zh-CN"
 
 	    });
 

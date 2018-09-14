@@ -26,7 +26,7 @@ public class BaseController extends HttpServlet {
 		menus.add(new Menu("110", "基础设置", "#icon-users", null, null, null, "base", new Menu("100")));
 		menus.add(new Menu("111", "专业管理", null, null, null, "permissions/professional/mainTable", "professional", new Menu("110")));
 		menus.add(new Menu("112", "班级管理", null, null, null, "permissions/group/mainTable", "group", new Menu("110")));
-		menus.add(new Menu("113", "学生档案", null, null, null, "", "student", new Menu("110")));
+		menus.add(new Menu("113", "学生档案", null, null, null, "permissions/student/mainTable", "student", new Menu("110")));
 		
 		menus.add(new Menu("200", "学生日常", null, null, null, "main?command=studentDay", "studentDay", null));
 		menus.add(new Menu("300", "学籍管理", null, null, null, "main?command=studentStatus", "studentStatus", null));

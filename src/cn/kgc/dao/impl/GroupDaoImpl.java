@@ -87,7 +87,7 @@ public class GroupDaoImpl extends BaseDaoImpl<Group> implements GroupDao {
 
 	@Override
 	public int insert(Group group) throws DaoException {
-		return insert("INSERT INTO t_group VALUES (?,?,?,?,?,?,'01',?)", group, 0, 6,group.getProfessional().getId());
+		return insert("INSERT INTO t_group VALUES (?,?,?,?,?,?,'01',?)", group, 0, 5,group.getProfessional().getId());
 	}
 
 

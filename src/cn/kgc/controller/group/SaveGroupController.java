@@ -15,6 +15,7 @@ import com.alibaba.fastjson.JSON;
 
 import cn.kgc.exception.ServiceException;
 import cn.kgc.model.Group;
+import cn.kgc.model.Professional;
 import cn.kgc.service.impl.GroupServiceImpl;
 import cn.kgc.service.intf.GroupService;
 
@@ -39,9 +40,11 @@ public class SaveGroupController extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		GroupService groupService = new GroupServiceImpl();
 		String command = req.getParameter("command");
+		String pid = req.getParameter("pid");
 		String data = req.getParameter("data");
 		
 		Group group = JSON.parseObject(data, Group.class);
+		group.setProfessional(new Professional(pid));
 		int status = 0;
 		try {
 			if("add".equals(command)) {

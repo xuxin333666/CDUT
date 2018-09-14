@@ -22,7 +22,13 @@
 					<c:forEach items="${fields}" var="field">
 						<c:if test="${field.startsWith('#') }">
 							<c:set value="${field.split('#')}" var="arrs"></c:set>
-							<td>${item[arrs[1]][arrs[2]]}</td>
+							<c:set value="${item}" var="c"></c:set>
+							<c:forEach items="${arrs }" var="b">
+								<c:if test="${b != ''}">
+									<c:set value="${c[b]}" var="c"></c:set>
+								</c:if>
+							</c:forEach>
+							<td>${c}</td>
 						</c:if>
 						<c:if test="${!field.startsWith('#') }">
 							<td>${item[field]}</td>

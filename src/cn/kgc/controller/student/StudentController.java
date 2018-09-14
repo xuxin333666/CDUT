@@ -1,7 +1,6 @@
-package cn.kgc.controller.group;
+package cn.kgc.controller.student;
 
 import java.io.IOException;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -15,26 +14,23 @@ import org.slf4j.LoggerFactory;
 
 import cn.kgc.bean.PageBean;
 import cn.kgc.exception.ServiceException;
-import cn.kgc.model.Group;
-import cn.kgc.model.Professional;
-import cn.kgc.service.impl.GroupServiceImpl;
-import cn.kgc.service.impl.ProfessionalServiceImpl;
-import cn.kgc.service.intf.GroupService;
-import cn.kgc.service.intf.ProfessionalService;
-import cn.kgc.utils.GroupUtils;
+import cn.kgc.model.Student;
+import cn.kgc.service.impl.StudentServiceImpl;
+import cn.kgc.service.intf.StudentService;
 import cn.kgc.utils.StringUtils;
+import cn.kgc.utils.StudentUtils;
 
 
 
-@WebServlet("/admin/permissions/group/mainTable")
-public class GroupController extends HttpServlet {
+@WebServlet("/admin/permissions/student/mainTable")
+public class StudentController extends HttpServlet {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	
-	private static final Logger logger = LoggerFactory.getLogger(GroupController.class); 
+	private static final Logger logger = LoggerFactory.getLogger(StudentController.class); 
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -43,33 +39,31 @@ public class GroupController extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		GroupService groupService = new GroupServiceImpl();
-		ProfessionalService professionalService = new ProfessionalServiceImpl();
+		StudentService studnetService = new StudentServiceImpl();
 		Map<String, String[]> feilds = req.getParameterMap();
-		PageBean<Group> pageBean = null;
-		List<Professional> pros = null;
+		PageBean<Student> pageBean = null;
 		try {
-			pageBean = new PageBean<>(groupService.getCount(feilds));
+			pageBean = new PageBean<>(studnetService.getCount(feilds));
 			if(StringUtils.isNotEmpty(req.getParameter("page"))) {
 				pageBean.setCurrentPage(Integer.parseInt(req.getParameter("page")));
 			} else {
 				pageBean.setCurrentPage(1);
 			}
 			
-			pageBean = groupService.query(pageBean,feilds);
+			pageBean = studnetService.query(pageBean,feilds);
 			
-			pros = professionalService.query();
 			
 		} catch (ServiceException e) {
-			logger.error("[GroupController:doPost]" + e.getMessage());
+			logger.error("[StudentController:doPost]" + e.getMessage());
 		}
-		req.setAttribute("pageBean", pageBean);
-		req.setAttribute("pros", pros);
-		req.setAttribute("maps", feilds);
-		req.setAttribute("columnNames", GroupUtils.colName);
-		req.setAttribute("fields", GroupUtils.fields);
 		
-		req.getRequestDispatcher("group.jsp").forward(req, resp);
+		req.setAttribute("pageBean", pageBean);
+		req.setAttribute("maps", feilds);
+		req.setAttribute("selectMap", StudentUtils.selectMap);
+		req.setAttribute("columnNames", StudentUtils.colName);
+		req.setAttribute("fields", StudentUtils.fields);
+		
+		req.getRequestDispatcher("student.jsp").forward(req, resp);
 	}
 	
 	

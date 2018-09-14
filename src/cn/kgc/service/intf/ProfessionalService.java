@@ -27,4 +27,6 @@ public interface ProfessionalService {
 
 	int disable(List<String> idArr) throws ServiceException;
 
+	List<Professional> query() throws ServiceException;
+
 }

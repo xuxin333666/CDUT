@@ -34,7 +34,7 @@
                 text-align: right;
             }
             .row.body {
-            	min-height: 380px;
+            	height: 500px;
             }
         </style>
 
@@ -89,7 +89,9 @@
     
 	<script src="${pageContext.request.contextPath }/lib/bootstrap-datetimepicker.min.js"></script>
 	
-	<script src="${pageContext.request.contextPath }/lib/locales/bootstrap-datetimepicker.fr.js"></script>
+	<script src="${pageContext.request.contextPath }/lib/locales/bootstrap-datetimepicker.zh-CN.js"></script>
+	
+	<script src="${pageContext.request.contextPath }/lib/bootstrap-treeview.js"></script>
     
     <script src="http://at.alicdn.com/t/font_783692_gfwpqhoo67.js"></script>
     

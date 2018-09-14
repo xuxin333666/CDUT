@@ -40,6 +40,12 @@ public class ProfessionalDaoImpl extends BaseDaoImpl<Professional> implements Pr
 		
 	}
 	
+
+	@Override
+	public List<Professional> query() throws DaoException {
+		return query("SELECT * FROM t_professional ORDER BY id + 0", Professional.class, null, columnName);
+	}
+	
 	
 	private StringBuilder createSb(StringBuilder sb,Map<String, String[]> feilds,List<Object> args) {
 		Set<String> keys = feilds.keySet();
@@ -95,6 +101,12 @@ public class ProfessionalDaoImpl extends BaseDaoImpl<Professional> implements Pr
 	public int updates(List<String> idArr,String arg) throws DaoException {
 		return super.updateById("UPDATE t_professional SET status=? WHERE id=?", idArr, arg);
 	}
+
+	@Override
+	public List<Professional> query(String cloName, String value) throws DaoException {
+		return query("SELECT * FROM t_professional WHERE " + cloName + " = "+ value +" ORDER BY id + 0", Professional.class, null, columnName);
+	}
+
 
 
 }

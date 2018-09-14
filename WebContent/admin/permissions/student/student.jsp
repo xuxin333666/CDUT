@@ -11,31 +11,29 @@
 <body>
 	<div class="row">
 		<div class="col-xs-2">
-			<div class="panel-group" id="proTree" style="height: 400px;overflow: auto;">
-			    <div class="panel panel-info">
-			        <div class="panel-heading">
-			            <h4 class="panel-title ">
-		                	<a data-toggle="collapse" data-parent="#proTree" href="#proList" onclick="proTreeClick('')">
-			            	专业
-		                	</a>
-		            	</h4>
-			        </div>
-			        <div id="proList" class="panel-collapse collapse in">
-				        <c:forEach items="${pros }" var="pro">
-				            <div class="panel-body" data-val="${pro.id }" onclick="proTreeClick('${pro.id }')">${pro.name }</div>
-				        </c:forEach>
-			        </div>
-			    </div>
-			</div>
+			<div id="tree" style="width: 120%;margin-left: -25.3px;height: 400px;overflow: auto;"></div>
 		</div>
 		<div class="col-xs-10">
 			<div class="row">
 				<div class="col-xs-12">
-					<form method="post" action="javascript:void(0)" class="form-inline groupForm">
-						<label for="groupName">班级名称：</label><input type="text" class="form-control" style="width:120px" name="gname" id="groupName" value="${maps.gname[0] }"/>
-						<label class="myMarginLeft20" for="groupMinDate">创班日期：</label><input  class="form-control span2 dateInput" autocomplete="off" style="width:120px" size="16" type="text" name="groupMinDate" id="groupMinDate" value="${maps.groupMinDate[0] }" readonly/> —— <input class="form-control span2 dateInput" autocomplete="off" style="width:120px" size="16" type="text" name="groupMaxDate" id="groupMaxDate" value="${maps.groupMaxDate[0] }" readonly/>
-						<label class="myMarginLeft20" for="groupManager">班主任：</label><input type="text" class="form-control" style="width:120px" name="group_manager" id="groupManager" value="${maps.group_manager[0] }"/>
-						<input class="myMarginLeft20 btn btn-primary " type="submit" value="查询"><input type="hidden" name="page" value="1"><input type="hidden" name="pid" value="${maps.pid[0] }">
+					<form method="post" action="javascript:void(0)" class="form-inline studentForm">
+						<div class="form-group">
+							<label for="studentName">姓名：</label><input type="text" class="form-control" style="width:120px" name="sname" id="studentName" value="${maps.sname[0] }"/>
+							<label class="myMarginLeft20" for="studentId">学号：</label><input type="text" class="form-control" style="width:120px" name="sid" id="studentId" value="${maps.sid[0] }"/>
+							<label class="myMarginLeft20" for="stady_status">学籍状态：</label>  
+							<select class="myMarginLeft20 form-control" name="stady_status" id="stady_status">
+								<option value="">全部</option>
+							    <c:forEach items="${selectMap.stadyStatus }" var="status">
+							    	<option value="${status.key }">${status.value }</option>
+							    </c:forEach>
+						    </select>
+						    <label class="myMarginLeft20" for="idcard">身份证号：</label><input type="text" class="form-control" style="width:120px" name="idcard" id="idcard" value="${maps.idcard[0] }"/>
+						</div><br/>
+						<div class="form-group myMargintop20">
+							<label for="studentMinDate">入学日期：</label><input  class="form-control dateInput" autocomplete="off" style="width:120px" size="16" type="text" name="studentMinDate" id="studentMinDate" value="${maps.studentMinDate[0] }" readonly/> —— <input class="form-control dateInput" autocomplete="off" style="width:120px" size="16" type="text" name="studentMaxDate" id="studentMaxDate" value="${maps.studentMaxDate[0] }" readonly/>
+							<label class="myMarginLeft20" for="groupName">班级名称：</label><input type="text" class="form-control" style="width:120px" name="gname" id="groupName" value="${maps.gname[0] }"/>
+							<input class="myMarginLeft20 btn btn-primary " type="submit" value="查询"><input type="hidden" name="page" value="1"><input type="hidden" name="gid" value="${maps.gid[0] }">
+						</div>
 					</form>
 				</div>
 			</div>
@@ -43,14 +41,10 @@
 				    <div class="col-xs-12">
 				        <div class="btn-toolbar" role="toolbar" aria-label="...">
 				            <div class="btn-group" role="group" aria-label="...">
-				                <button type="button" class="btn btn-primary group_add" data-toggle="modal">新增</button>
-				                <button type="button" class="btn btn-success group_modify" data-toggle="modal">修改</button>
-				                <button type="button" class="btn btn-info group_del" data-url="">删除</button>
+				                <button type="button" class="btn btn-primary student_add" data-toggle="modal">国网注册</button>
+				                <button type="button" class="btn btn-success student_modify" data-toggle="modal">修改</button>
 				            </div>
-				            <div class="btn-group" role="group" aria-label="...">
-								<button type="button" class="btn btn-primary group_enable" data-toggle="modal">启用</button>
-				                <button type="button" class="btn btn-success group_disable" data-toggle="modal">停用</button>
-				            </div>
+				            
 				            <div class="btn-group float-right user-set" role="group" aria-label="...">
 				                <button type="button" class="btn btn-default">设置</button>
 				                <button type="button" class="btn btn-default">帮助</button>
@@ -58,18 +52,18 @@
 				        </div>
 				    </div>
 				</div>
-			<div class="row  groupCt">
+			<div class="row studentCt">
 			<jsp:include page="../../temp/table.jsp"></jsp:include>
 		    </div>
 		</div>
-		<div class="modal fade bs-example-modal-sm groupModal_modify" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+		<div class="modal fade bs-example-modal-sm studentModal_modify" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
 			  <div class="modal-dialog" role="document">
 			    <div class="modal-content">
 			     <div class="modal-header">
 			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 			        <h4 class="modal-title" id="myModalLabel">班级修改</h4>
 			      </div>
-			      <div class="modal-body groupModalBody_modify">
+			      <div class="modal-body studentModalBody_modify">
 			      </div>
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-default" data-dismiss="modal">退出</button>
@@ -80,24 +74,28 @@
 			</div>
 	</div>
 	<script>
+	//搜索去下拉框回显
+	$("#stady_status").val('${maps.stady_status[0]}');
 
-	function submitGroupForm() {
-		var $inputs = $(".groupForm").find("input");
+	function submitStudentForm() {
+		var $inputs = $(".studentForm").find("input,select");
 		var str = "?";
 		$inputs.each(function(k,v) {
 			if($(this).attr("type") != "submit") {
 				str += $(this).attr("name") + "=" + $(this).val() + "&";
 			}
 		})
-		refreshFrame("班级管理",str);
+		refreshFrame("学生档案",str);
 	}
 	
-		$(".groupForm").on("submit",submitGroupForm);
+		$(".studentForm").on("submit",submitStudentForm);
 		
 		function refreshTable(page) {
-			$(".groupForm").find("input[name=page]").val(page);
-			submitGroupForm();
+			$(".studentForm").find("input[name=page]").val(page);
+			submitStudentForm();
 		}
+		
+		
 	$('.dateInput').datetimepicker({
 		format:"yyyy-mm-dd",
 
@@ -121,7 +119,7 @@
 
 
 	    });
-
+	/*
 
 	$(".group_add").on("click",function() {
 		var pid = $(".groupForm").find("input[name=pid]").val();
@@ -219,7 +217,71 @@
 	//专业树高亮显示
 	var proId = "${maps.pid[0]}" || "1";
 	$("#proList>.panel-body[data-val="+ proId +"]").addClass("text-primary");
+	*/
 	
+	//班级树调用
+	function getTree() {
+		var tree = [
+			  {
+		        text: "土木工程",
+		        href: "#node-1",
+			    selectable: true,
+			    state: {
+			      checked: true,
+			      expanded: true,
+			      selected: true
+			    },
+			    tags: ['available'],
+		        nodes: [
+		          {
+		            text: "土木1班",
+		            icon: "glyphicon glyphicon-stop",
+		            selectedIcon: "glyphicon glyphicon-stop"
+		          },
+		          {
+		            text: "土木2班",
+		            icon: "glyphicon glyphicon-stop",
+		            selectedIcon: "glyphicon glyphicon-stop",
+		          }
+		        ]
+		      },
+		      {
+		        text: "java",
+		        nodes: [
+			          {
+			            text: "java1802",
+			            icon: "glyphicon glyphicon-stop",
+			            selectedIcon: "glyphicon glyphicon-stop",
+			          },
+			          {
+			            text: "java1803",
+			            icon: "glyphicon glyphicon-stop",
+			            selectedIcon: "glyphicon glyphicon-stop",
+			          }
+			        ]
+		      },
+		      {
+			        text: "计算机网络通讯技术",
+			        nodes: [
+				          {
+				            text: "java1802",
+				            icon: "glyphicon glyphicon-stop",
+				            selectedIcon: "glyphicon glyphicon-stop",
+				          },
+				          {
+				            text: "java1803",
+				            icon: "glyphicon glyphicon-stop",
+				            selectedIcon: "glyphicon glyphicon-stop"
+				          }
+				        ]
+			      }
+			];                  
+	    return tree;
+	}
+	 
+	$('#tree').treeview({data: getTree(),levels: 1,onNodeSelected : function(event, data) {
+        console.log(event.target);
+    }});             
 	</script>
 </body>
 </html>

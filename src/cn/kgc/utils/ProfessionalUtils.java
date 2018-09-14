@@ -42,9 +42,11 @@ public class ProfessionalUtils {
 	}
 	
 	public static Professional modelfilter(Professional pro) {
-		pro.setCode(code2Str(pro.getCode(),professionalCode));
-		pro.setEductionalSystme(code2Str(pro.getEductionalSystme(),professionalSystme));
-		pro.setStatus(code2Str(pro.getStatus(),professionalStatus));
+		if(pro != null) {
+			pro.setCode(code2Str(pro.getCode(),professionalCode));
+			pro.setEductionalSystme(code2Str(pro.getEductionalSystme(),professionalSystme));
+			pro.setStatus(code2Str(pro.getStatus(),professionalStatus));
+		}
 		return pro;
 	}
 	

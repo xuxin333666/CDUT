@@ -50,5 +50,79 @@
 	    </div>
 	 	</c:if>
 	 </c:forEach>
+	 
+	 
+	  <div class="panel panel-info">
+	        <div class="panel-heading">
+	            <h4 class="panel-title ">
+		            <svg class="icon" aria-hidden="true">
+	                       <use xlink:href="#icon-users"></use>
+	                   </svg>
+	                <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+		            	其他功能
+	                </a>
+	            </h4>
+	        </div>
+	        <div id="collapse1" class="panel-collapse collapse">
+	            <div class="panel-body">
+	        		其他功能
+	            </div>
+	        </div>
+	    </div>
+	    	  <div class="panel panel-info">
+	        <div class="panel-heading">
+	            <h4 class="panel-title ">
+		            <svg class="icon" aria-hidden="true">
+	                       <use xlink:href="#icon-users"></use>
+	                   </svg>
+	                <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">
+		            	其他功能
+	                </a>
+	            </h4>
+	        </div>
+	        <div id="collapse2" class="panel-collapse collapse">
+	            <div class="panel-body">
+	        		其他功能
+	            </div>
+	        </div>
+	    </div>
+	    	  <div class="panel panel-info">
+	        <div class="panel-heading">
+	            <h4 class="panel-title ">
+		            <svg class="icon" aria-hidden="true">
+	                       <use xlink:href="#icon-users"></use>
+	                   </svg>
+	                <a data-toggle="collapse" data-parent="#accordion" href="#collapse3">
+		            	其他功能
+	                </a>
+	            </h4>
+	        </div>
+	        <div id="collapse3" class="panel-collapse collapse">
+	            <div class="panel-body">
+	        		其他功能
+	            </div>
+	        </div>
+	    </div>
+	    	  <div class="panel panel-info">
+	        <div class="panel-heading">
+	            <h4 class="panel-title ">
+		            <svg class="icon" aria-hidden="true">
+	                       <use xlink:href="#icon-users"></use>
+	                   </svg>
+	                <a data-toggle="collapse" data-parent="#accordion" href="#collapse4">
+		            	其他功能
+	                </a>
+	            </h4>
+	        </div>
+	        <div id="collapse4" class="panel-collapse collapse">
+	            <div class="panel-body">
+	        		其他功能
+	            </div>
+	        </div>
+	    </div>
+	    
+	    
+	    
 	 </c:if>
+	 
 </div>

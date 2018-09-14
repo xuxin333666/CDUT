@@ -6,6 +6,10 @@
     margin-left: 20px;
 }
 
+.myMargintop20 {
+    margin-top: 20px;
+}
+
 .panel-body {
 	cursor: pointer;
 }

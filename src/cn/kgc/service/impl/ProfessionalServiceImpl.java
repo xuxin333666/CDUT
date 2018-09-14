@@ -139,6 +139,16 @@ public class ProfessionalServiceImpl implements ProfessionalService {
 		}
 		return status;
 	}
+
+	@Override
+	public List<Professional> query() throws ServiceException {
+		try {
+			return professionalDao.query("status","01");
+		} catch (DaoException e) {
+			logger.error("[ProfessionalServiceImpl:query]" + e.getMessage());
+			throw new ServiceException(e.getMessage());
+		}
+	}
 	
 
 }
