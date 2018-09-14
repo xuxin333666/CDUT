@@ -9,7 +9,7 @@
 
 	
 	<div class="table-responsive studentTable_jsp">
-		<table class="table table-hover table-striped">
+		<table class="table table-hover table-striped table-condensed">
 			<tr><th class="selectAllCt"><input type="checkbox" class="selectAll" name="selectAll"></th>
 			<c:forEach items="${columnNames}" var="columnName">
 				<th>${columnName}</th>	
@@ -18,7 +18,7 @@
 					<% int i = 1; %>
 				<c:forEach items="${pageBean.dataList}" var="item">
 					<tr><td class="selectCt"><input type="checkbox" class="selectItem" name="selectItem" value="${item.id}"></td>
-					<td><%=i++ %></td>
+					<td class="myPointer"><%=i++ %></td>
 					<c:forEach items="${fields}" var="field">
 						<c:if test="${field.startsWith('#') }">
 							<c:set value="${field.split('#')}" var="arrs"></c:set>
@@ -28,10 +28,10 @@
 									<c:set value="${c[b]}" var="c"></c:set>
 								</c:if>
 							</c:forEach>
-							<td>${c}</td>
+							<td class="myPointer">${c}</td>
 						</c:if>
 						<c:if test="${!field.startsWith('#') }">
-							<td>${item[field]}</td>
+							<td class="myPointer">${item[field]}</td>
 						</c:if>
 					</c:forEach>
 					</tr>
@@ -52,6 +52,18 @@
 			});
 		}
 	})
+	
+	
+	function registTableModify($parentCt,callback) {
+		$parentCt.find(".table-hover").on("dblclick",function() {
+			var $this = $(event.target);
+			if($this.parent().find("input.selectItem").length != 0) {
+				if(callback != undefined) {
+					callback($this.parent().find("input.selectItem").val());
+				}
+			}
+		})
+	}
 
 	
 </script>

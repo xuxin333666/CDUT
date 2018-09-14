@@ -220,6 +220,12 @@
 	var proId = "${maps.pid[0]}" || "1";
 	$("#proList>.panel-body[data-val="+ proId +"]").addClass("text-primary");
 	
+	//双击表格调用修改表格方法
+	registTableModify($(".groupCt"),function(id) {
+		$('.groupModal_modify').modal();
+		$(".groupModalBody_modify").load("permissions/group/pro_modify?id=" + id);
+	});
+	
 	</script>
 </body>
 </html>

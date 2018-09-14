@@ -57,10 +57,10 @@
         <jsp:include page="permissions/nav.jsp"></jsp:include>
         <div class="container-fluid"> 
             <div class="row body">
-                <div class="col-md-2 col-sm-4 hidden-xs">
+                <div class="col-lg-1 col-md-2 col-sm-4 hidden-xs">
 	                <jsp:include page="permissions/menu.jsp"></jsp:include>
                 </div>
-                <div class="col-md-10 col-sm-8 col-xs-12 mainContent">
+                <div class="col-lg-11 col-md-10 col-sm-8 col-xs-12 mainContent">
 					<ul class="nav nav-tabs mainContentTabs">
 					<c:if test="${secMenus.size() == 0}">
 					    <li class="tabItem" data-name="欢迎页"><a href="#欢迎页" data-toggle="tab">首页<span class="glyphicon glyphicon-remove-circle closeTab" aria-hidden="true"></span></a></li>

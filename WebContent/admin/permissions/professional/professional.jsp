@@ -104,6 +104,9 @@
 		$('.professionalModal_modify').modal();
 		$(".professionalModalBody_modify").load("permissions/professional/pro_add");
 	})
+	
+	//修改数据方法
+	
 
 	$(".professional_modify").on("click",function() {
 		var flag = true;
@@ -221,6 +224,13 @@
 			});
 		}
 	})
+	
+	//双击表格调用修改表格方法
+	registTableModify($(".professionalCt"),function(id) {
+		$('.professionalModal_modify').modal();
+		$(".professionalModalBody_modify").load("permissions/professional/pro_modify?id=" + id);
+	});
+	
 	
 	</script>
 </body>
