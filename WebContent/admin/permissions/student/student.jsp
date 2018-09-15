@@ -42,6 +42,7 @@
 				        <div class="btn-toolbar" role="toolbar" aria-label="...">
 				            <div class="btn-group" role="group" aria-label="...">
 				                <button type="button" class="btn btn-primary student_add">国网注册</button>
+				                <button type="button" class="btn btn-info student_fileUpload">信息采集</button>
 				                <button type="button" class="btn btn-success student_modify">修改</button>
 				            </div>
 				            
@@ -59,14 +60,17 @@
 	</div>
 	
 	<div class="row studentRow hidden">
-       <h4 class="modal-title" id="myModalLabel">班级修改</h4>
-     <div class="modal-body studentModalBody_modify">
-     </div>
-     <div class="modal-footer">
-       <button type="button" class="btn btn-default quitBtn">退出</button>
-       <button type="button" class="btn btn-primary saveChangeBtn">保存修改</button>
-	</div>
+		<div class="row modifyTitle">
+	       <h4 class="text-center">学生修改</h4>
 		</div>
+		
+	     <div class="row modifyBody"></div>
+	     
+	     <div class="text-center row modifyFooter">
+	       <button type="button" class="btn btn-primary saveChangeBtn">保存</button>
+	       <button type="button" class="btn btn-default quitBtn">退出</button>
+		</div>
+	</div>
 	
 	<script>
 	//搜索去下拉框回显
@@ -117,51 +121,80 @@
 	
 	
 	//新建修改按钮触发页面显示隐藏转换
+	function modifyChange() {
+		$(".studentRow").toggleClass("hidden");
+	}
+	
+	
+	//新建
 	$(".student_add").on("click",function() {
-		$(".studentRow").toggleClass("hidden");
+		
+		var gid = $(".studentForm").find("input[name=gid]").val();
+		if(gid === "") {
+			alert("请选择一个班级再添加学生");
+			return;
+		}
+		modifyChange();
+		$(".studentRow .modifyBody").load("permissions/student/pro_add?gid=" + gid);
 	});
 	
+	//修改方法
+	function modifyStudent(id) {
+		modifyChange();
+		$(".studentRow .modifyBody").load("permissions/student/pro_modify?id=" + id);
+	}
+	
+	//普通修改方法调用
 	$(".student_modify").on("click",function() {
-		$(".studentRow").toggleClass("hidden");
-	});
-	
-	$(".quitBtn").on("click",function() {
-		$(".studentRow").toggleClass("hidden");
+		registTableModifySelect($(".studentCt"),modifyStudent);
 	});
 	
 	//双击表格调用修改表格方法
-	registTableModify($(".studentCt"),function(id) {
-		$(".studentRow").toggleClass("hidden");
-	});
-	/*
-
-	$(".group_add").on("click",function() {
-		var pid = $(".groupForm").find("input[name=pid]").val();
-		if(pid === "") {
-			alert("请选择一个专业再添加班级");
+	registTableModify($(".studentCt"),modifyStudent);
+	
+	
+	
+	$(".quitBtn").on("click",modifyChange);
+	
+	$(".saveChangeBtn").on("click",function(){
+		var id = $(".modifyBody").find("input[name=id]").val();
+		if(id === "") {
+			alert("学号不能为空！");
 			return;
 		}
-		$('.groupModal_modify').modal();
-		$(".groupModalBody_modify").load("permissions/group/pro_add?pid=" + pid);
-	})
-
-	$(".group_modify").on("click",function() {
-		var flag = true;
-		$(".groupCt").find(".selectItem").each(function(){
-			if(this.checked) {
-				var id = $(this).val();
-				$('.groupModal_modify').modal();
-				$(".groupModalBody_modify").load("permissions/group/pro_modify?id=" + id);
-				flag = false;
-				return;
-			};
+		var data = {};
+		var command = "";
+		var pid = "";
+		$(".studentRow .modifyBody").find("input,select").each(function(i,v){
+			if($(this).attr("type") != "hidden") {
+			data[$(this).attr("name")] = $(this).val();
+			} else if($(this).attr("name") === "command") {
+				command =  $(this).val();
+			} else if($(this).attr("name") === "gid") {
+				gid =  $(this).val();
+			}
+		})
+		var specialtyValue = CKEDITOR.instances.specialty.getData();
+		data.specialty = specialtyValue;
+		data = JSON.stringify(data);
+		var obj = {command:command,gid:gid,data:data};
+		$.ajax({
+			type: "post",
+			url: "permissions/student/save",
+			data: obj,
+			success: function(msg){
+				if(msg == 1) {
+					modifyChange();
+					refreshTable($(".currentPage").attr("data-currentPage"));
+				}else {
+					alert("修改保存失败," + msg);
+				}
+			}
 		});
-		if(flag) {
-			alert("请选择一行内容进行修改");
-		}
-		
-		
 	})
+	
+
+	/*
 	
 	$(".group_del").on("click",function() {
 		var idArr = select2Arr(".groupCt .selectItem");
@@ -187,116 +220,18 @@
 		}
 	})
 	
-	$(".saveChangeBtn").on("click",function(){
-		var data = {};
-		var command = "";
-		var pid = "";
-		$(".groupModalBody_modify").find("input,select").each(function(i,v){
-			if($(this).attr("type") != "hidden") {
-			data[$(this).attr("name")] = $(this).val();
-			} else if($(this).attr("name") === "command") {
-				command =  $(this).val();
-			} else if($(this).attr("name") === "pid") {
-				pid =  $(this).val();
-			}
-		})
-		data = JSON.stringify(data);
-		var obj = {command:command,pid:pid,data:data};
-		$.ajax({
-			type: "post",
-			url: "permissions/group/save",
-			data: obj,
-			dataType: "json",
-			success: function(msg){
-				if(msg != 0) {
-					$('.groupModal_modify').modal('toggle');
-					setTimeout(function() {
-						refreshTable($(".currentPage").attr("data-currentPage"));
-					},300);
-				}else {
-					alert("修改保存失败");
-				}
-			}
-		});
-	})
-
 	
-	//专业树点击监听
-	function proTreeClick(pid) {
-		$(".groupForm").find("input[name=page]").val(1);
-		$(".groupForm").find("input[name=pid]").val(pid);
-		submitGroupForm();
-	}
-	
-	//专业树高亮显示
-	var proId = "${maps.pid[0]}" || "1";
-	$("#proList>.panel-body[data-val="+ proId +"]").addClass("text-primary");
 	*/
-	
 	//班级树调用
 	function getTree() {
-		var tree = [
-			  {
-		        text: "土木工程",
-		        href: "#node-1",
-			    selectable: true,
-			    state: {
-				      expanded: true,
-				    },
-		        nodes: [
-		          {
-		            text: "<span onclick='groupTreeClick(123)'>123</span>",
-		            icon: "glyphicon glyphicon-stop",
-		            selectedIcon: "glyphicon glyphicon-stop",
-		            state: {
-					      checked: true,
-					      expanded: true,
-					      selected: true
-					    }
-		          },
-		          {
-		            text: "土木2班",
-		            icon: "glyphicon glyphicon-stop",
-		            selectedIcon: "glyphicon glyphicon-stop",
-		          }
-		        ]
-		      },
-		      {
-		        text: "java",
-		        nodes: [
-			          {
-			            text: "java1802",
-			            icon: "glyphicon glyphicon-stop",
-			            selectedIcon: "glyphicon glyphicon-stop",
-			          },
-			          {
-			            text: "java1803",
-			            icon: "glyphicon glyphicon-stop",
-			            selectedIcon: "glyphicon glyphicon-stop",
-			          }
-			        ]
-		      },
-		      {
-			        text: "计算机网络通讯技术",
-			        nodes: [
-				          {
-				            text: "java1802",
-				            icon: "glyphicon glyphicon-stop",
-				            selectedIcon: "glyphicon glyphicon-stop",
-				          },
-				          {
-				            text: "java1803",
-				            icon: "glyphicon glyphicon-stop",
-				            selectedIcon: "glyphicon glyphicon-stop"
-				          }
-				        ]
-			      }
-			];                  
-	    return tree;
+		return ${nodes}; 
 	}
 	
+	//专业树点击监听
 	function groupTreeClick(gid) {
-		alert(gid);
+		$(".studentForm").find("input[name=page]").val(1);
+		$(".studentForm").find("input[name=gid]").val(gid);
+		submitStudentForm();
 	}
 	 
 	$('#tree').treeview({data: getTree(),levels: 1});             

@@ -5,7 +5,7 @@ import java.util.Date;
 public class Student {
 	private String id;
 	private String name;
-	private String photoUrl;
+	private String photoUrl = "c:/upload/unkown.jpg";
 	private String gender;
 	private String registrationNo;
 	private String registeredResidence;
@@ -32,11 +32,11 @@ public class Student {
 	private String email;
 	private String specialty;
 	
-	private String reportStatus;
+	private String reportStatus = "02";
 	private Date reportDate;
 	private String residenceStatus;
 	
-	private String registStatus;
+	private String registStatus = "02";
 	private Date registDate;
 	
 	

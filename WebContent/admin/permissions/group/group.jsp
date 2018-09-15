@@ -45,7 +45,7 @@
 				            <div class="btn-group" role="group" aria-label="...">
 				                <button type="button" class="btn btn-primary group_add" data-toggle="modal">新增</button>
 				                <button type="button" class="btn btn-success group_modify" data-toggle="modal">修改</button>
-				                <button type="button" class="btn btn-info group_del" data-url="">删除</button>
+				                <button type="button" class="btn btn-info group_del">删除</button>
 				            </div>
 				            <div class="btn-group" role="group" aria-label="...">
 								<button type="button" class="btn btn-primary group_enable" data-toggle="modal">启用</button>
@@ -132,24 +132,20 @@
 		$('.groupModal_modify').modal();
 		$(".groupModalBody_modify").load("permissions/group/pro_add?pid=" + pid);
 	})
-
+	
+	//修改方法
+	function modifyGroup(id) {
+		$('.groupModal_modify').modal();
+		$(".groupModalBody_modify").load("permissions/group/pro_modify?id=" + id);
+	}
+	//普通修改方法调用
 	$(".group_modify").on("click",function() {
-		var flag = true;
-		$(".groupCt").find(".selectItem").each(function(){
-			if(this.checked) {
-				var id = $(this).val();
-				$('.groupModal_modify').modal();
-				$(".groupModalBody_modify").load("permissions/group/pro_modify?id=" + id);
-				flag = false;
-				return;
-			};
-		});
-		if(flag) {
-			alert("请选择一行内容进行修改");
-		}
-		
-		
+		registTableModifySelect($(".groupCt"),modifyGroup);
 	})
+	
+	//双击表格调用修改表格方法
+	registTableModify($(".groupCt"),modifyGroup);
+	
 	
 	$(".group_del").on("click",function() {
 		var idArr = select2Arr(".groupCt .selectItem");
@@ -219,12 +215,7 @@
 	//专业树高亮显示
 	var proId = "${maps.pid[0]}" || "1";
 	$("#proList>.panel-body[data-val="+ proId +"]").addClass("text-primary");
-	
-	//双击表格调用修改表格方法
-	registTableModify($(".groupCt"),function(id) {
-		$('.groupModal_modify').modal();
-		$(".groupModalBody_modify").load("permissions/group/pro_modify?id=" + id);
-	});
+
 	
 	</script>
 </body>

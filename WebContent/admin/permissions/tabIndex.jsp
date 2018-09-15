@@ -7,7 +7,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<script src="${pageContext.request.contextPath}/ckeditor/ckeditor.js" type="text/javascript"></script>
 	
 	介绍：<textarea name="description" id="description"/></textarea>
 			

@@ -13,4 +13,10 @@ public interface StudentDao {
 
 	List<Student> query(PageBean<Student> pageBean, Map<String, String[]> feilds) throws DaoException;
 
+	Student query(String id) throws DaoException;
+
+	int insert(Student student) throws DaoException;
+
+	int update(Student student) throws DaoException;
+
 }

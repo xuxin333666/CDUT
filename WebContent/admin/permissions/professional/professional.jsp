@@ -109,21 +109,10 @@
 	
 
 	$(".professional_modify").on("click",function() {
-		var flag = true;
-		$(".professionalCt").find(".selectItem").each(function(){
-			if(this.checked) {
-				var id = $(this).val();
-				$('.professionalModal_modify').modal();
-				$(".professionalModalBody_modify").load("permissions/professional/pro_modify?id=" + id);
-				flag = false;
-				return;
-			};
+		registTableModifySelect($(".professionalCt"),function(id) {
+			$('.professionalModal_modify').modal();
+			$(".professionalModalBody_modify").load("permissions/professional/pro_modify?id=" + id);
 		});
-		if(flag) {
-			alert("请选择一行内容进行修改");
-		}
-		
-		
 	})
 	
 	$(".professional_del").on("click",function() {

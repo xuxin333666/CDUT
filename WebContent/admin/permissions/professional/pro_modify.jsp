@@ -63,6 +63,14 @@
 				       <input type="hidden" name="command" value="${command }"/>
 		</form>
 	</body>
+	
+		<c:forEach items="${selectMap }" var="key">
+		<c:if test="${pro[key.key] != null && pro[key.key] != ''}">
+			<script>$("#pro_" + '${key.key}').val("${pro[key.key] }")</script>
+		</c:if>
+	</c:forEach>
+	
+	
 	<script>
 	$('.pro_date').datetimepicker({
 		format:"yyyy-mm-dd",
@@ -87,13 +95,6 @@
 
 
 	    });
-	
-	var codeId = '${pro.code}' || '10000';
-	var eductionalSystmeId = '${pro.eductionalSystme}' || '01';
-	
-	$("#pro_code").val(codeId);
-	$("#pro_eductionalSystme").val(eductionalSystmeId);
-	
 	
 	</script>
 	

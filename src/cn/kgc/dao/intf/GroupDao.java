@@ -21,4 +21,8 @@ public interface GroupDao {
 
 	int deletes(List<String> idArr) throws DaoException;
 
+	List<Group> query(String key, String value) throws DaoException;
+
+	List<Group> query(Map<String, String[]> keys) throws DaoException;
+
 }

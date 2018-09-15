@@ -64,6 +64,22 @@
 			}
 		})
 	}
+	
+	function registTableModifySelect($parentCt,callback) {
+		var flag = true;
+		$parentCt.find(".selectItem").each(function(){
+			if(this.checked) {
+				var id = $(this).val();
+				callback(id);
+				flag = false;
+				return;
+			};
+		});
+		if(flag) {
+			alert("请选择一行内容进行修改");
+		}
+		
+	}
 
 	
 </script>

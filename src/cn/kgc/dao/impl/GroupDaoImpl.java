@@ -101,4 +101,20 @@ public class GroupDaoImpl extends BaseDaoImpl<Group> implements GroupDao {
 	public int deletes(List<String> idArr) throws DaoException {
 		return deleteById("DELETE FROM t_group WHERE id = ?", idArr);
 	}
+
+
+	@Override
+	public List<Group> query(String key, String value) throws DaoException {
+		return query("SELECT * FROM t_group as g LEFT JOIN t_professional as p on g.pro_id = p.id WHERE " + key + " = "+ value +" ORDER BY g.id + 0", Group.class, Professional.class, columnName);
+	}
+	
+	@Override
+	public List<Group> query(Map<String, String[]> keys) throws DaoException {
+		StringBuilder sb = new StringBuilder();
+		sb.append("SELECT " + selectSql);
+		List<Object> values = new ArrayList<>();
+		sb = createSb(sb, keys,values);
+		sb.append(" ORDER BY g.id + 0");
+		return queryByConditions(sb.toString(), Group.class , Professional.class, columnName, values);
+	}
 }
