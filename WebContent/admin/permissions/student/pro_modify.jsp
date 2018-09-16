@@ -17,7 +17,12 @@
 			<div class="form-group">
 			    <!-- Text input-->
 				<label class="control-label" for="stuentId">学号</label>
-				<input id="stuentId" type="text" class="form-control" name="id" value="${student.id }">
+				<c:if test="${command == 'add' }">
+					<input id="stuentId" type="text" class="form-control" name="id" value="${student.id }">
+				</c:if>
+				<c:if test="${command == 'modify' }">
+					<input id="stuentId" type="text" class="form-control" name="id" value="${student.id }" readonly>
+				</c:if>
 				<p class="help-block">请按一定规则编写学号</p>
 			</div>
 			
@@ -115,6 +120,20 @@
 				<label class="control-label" for="sourceSchool">来源学校</label>
 				<input id="sourceSchool" type="text" class="form-control" name="sourceSchool" value="${student.sourceSchool }">
 				<p class="help-block">请按一定规则编写</p>
+			</div>
+			
+			
+			<div class="form-group">
+				<!-- Text input-->
+				<label class="control-label" for="st_residenceStatus">是否住校</label>
+				<div class="controls">
+					<select class="form-control" name="residenceStatus" id="st_residenceStatus">
+					<c:forEach items="${selectMap.residenceStatus }" var="residenceStatus">
+						<option value="${residenceStatus.key }">${residenceStatus.value }</option>
+					</c:forEach>
+					</select>
+					<p class="help-block">请按一定规则编写</p>
+				</div>
 			</div>
 			
 			

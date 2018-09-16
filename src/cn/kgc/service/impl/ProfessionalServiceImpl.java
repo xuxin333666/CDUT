@@ -84,12 +84,23 @@ public class ProfessionalServiceImpl implements ProfessionalService {
 
 	@Override
 	public int deletes(List<String> idArr) throws ServiceException {
+		int status = 0;
+		List<String> errorList = checkGroupExist(idArr);
 		try {
-			return professionalDao.deletes(idArr);
+			status = professionalDao.deletes(idArr);
 		} catch (DaoException e) {
 			logger.error("[ProfessionalServiceImpl:deletes]" + e.getMessage());
 			throw new ServiceException(e.getMessage());
 		}
+		if(errorList.size() != 0 ) {
+			StringBuilder sb = new StringBuilder();
+			sb.append("如下专业无法删除，请检查是否含有班级：\n");
+			for (String id : errorList) {
+				sb.append("专业编号： " + id + "\n");
+			}
+			throw new ServiceException(sb.toString());
+		}
+		return status;
 	}
 
 	@Override
@@ -104,24 +115,8 @@ public class ProfessionalServiceImpl implements ProfessionalService {
 
 	@Override
 	public int disable(List<String> idArr) throws ServiceException {
-		List<String> errorList = new ArrayList<>();
-		Map<String, String[]> maps = new HashMap<>();
-		GroupDao groupDao = new GroupDaoImpl();
 		int status = 0;
-		for (String id : idArr) {
-			maps.put("p.id", new String[]{id});
-			try {
-				int count = groupDao.getCount(maps);
-				if(count != 0) {
-					errorList.add(id);
-				}
-			} catch (DaoException e) {
-				logger.error("[ProfessionalServiceImpl:disable]" + e.getMessage());
-				throw new ServiceException(e.getMessage());
-			}
-		}
-		idArr.removeAll(errorList);
-		
+		List<String> errorList = checkGroupExist(idArr);
 		try {
 			status = professionalDao.updates(idArr, "02");
 		} catch (DaoException e) {
@@ -131,7 +126,7 @@ public class ProfessionalServiceImpl implements ProfessionalService {
 		
 		if(errorList.size() != 0 ) {
 			StringBuilder sb = new StringBuilder();
-			sb.append("如下专业无法删除，请检查是否含有班级：\n");
+			sb.append("如下专业无法停用，请检查是否含有班级：\n");
 			for (String id : errorList) {
 				sb.append("专业编号： " + id + "\n");
 			}
@@ -148,6 +143,27 @@ public class ProfessionalServiceImpl implements ProfessionalService {
 			logger.error("[ProfessionalServiceImpl:query]" + e.getMessage());
 			throw new ServiceException(e.getMessage());
 		}
+	}
+	
+	private List<String> checkGroupExist(List<String> idArr) throws ServiceException {
+		List<String> errorList = new ArrayList<>();
+		Map<String, String[]> maps = new HashMap<>();
+		GroupDao groupDao = new GroupDaoImpl();
+		
+		for (String id : idArr) {
+			maps.put("p.id", new String[]{id});
+			try {
+				int count = groupDao.getCount(maps);
+				if(count != 0) {
+					errorList.add(id);
+				}
+			} catch (DaoException e) {
+				logger.error("[ProfessionalServiceImpl:checkGroupExist]" + e.getMessage());
+				throw new ServiceException(e.getMessage());
+			}
+		}
+		idArr.removeAll(errorList);
+		return errorList;
 	}
 	
 

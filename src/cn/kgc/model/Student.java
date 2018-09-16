@@ -5,7 +5,7 @@ import java.util.Date;
 public class Student {
 	private String id;
 	private String name;
-	private String photoUrl = "c:/upload/unkown.jpg";
+	private String photoUrl = "http://127.0.0.1:8080/upload/unkown.jpg";
 	private String gender;
 	private String registrationNo;
 	private String registeredResidence;

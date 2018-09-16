@@ -25,6 +25,10 @@ public class StudentUtils {
 	public static final String registStatus = "registStatus";
 	public static final String[] colName = new String[]{"序号","姓名","性别","学号","入学年月","专业","班级","学制"};
 	public static final String[] fields = new String[]{"name","gender","id","admissionDate","#group#professional#name","#group#name","#group#professional#eductionalSystme"};
+	public static final String[] colName_report = new String[]{"序号","姓名","性别","学号","班级","报道状态","报道日期","注册状态","是否请假","是否住校"};
+	public static final String[] fields_report = new String[]{"name","gender","id","#group#name","reportStatus","reportDate","registStatus","stadyStatus","residenceStatus"};
+	public static final String[] colName_regist = new String[]{"序号","姓名","性别","学号","班级","注册状态","注册日期","报道状态","是否请假","是否住校"};
+	public static final String[] fields_regist = new String[]{"name","gender","id","#group#name","registStatus","registDate","reportStatus","stadyStatus","residenceStatus"};
 	public static final Map<String, Map<String, String>> selectMap = new HashMap<>();
 	
 	static {
@@ -56,14 +60,14 @@ public class StudentUtils {
 		map.put("01", "A型");
 		map.put("02", "B型");
 		map.put("03", "O型");
-		map.put("03", "AB型");
+		map.put("04", "AB型");
 		selectMap.put(bloodType, map);
 		
 		map = new HashMap<>();
 		map.put("01", "本科");
 		map.put("02", "高中");
 		map.put("03", "小学");
-		map.put("03", "中学");
+		map.put("04", "中学");
 		selectMap.put(educationBackground, map);
 		
 		map = new HashMap<>();

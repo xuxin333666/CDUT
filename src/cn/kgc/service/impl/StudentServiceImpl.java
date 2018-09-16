@@ -1,6 +1,7 @@
 package cn.kgc.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -84,7 +85,7 @@ public class StudentServiceImpl implements StudentService {
 					List<Group> groups = groupDao.query(keys);
 					for (Group group : groups) {
 						treeNode groupnode = new treeNode();
-						groupnode.setText("<span style='color:red' onclick='groupTreeClick(\""+ group.getId() +"\")'>"+ group.getName() +"</span>");
+						groupnode.setText("<span style='color:orange' onclick='groupTreeClick(\""+ group.getId() +"\")'>"+ group.getName() +"</span>");
 						groupNodes.add(groupnode);
 						if(gid != null && gid.equals(group.getId())) {
 							Map<String, String> state = new HashMap<>();
@@ -98,6 +99,7 @@ public class StudentServiceImpl implements StudentService {
 							pronode.setState(state);
 						}
 					}
+
 				} catch (DaoException e) {
 					logger.error("[StudentServiceImpl:createTreeNode:班级查询失败]" + e.getMessage());
 				}
@@ -106,7 +108,11 @@ public class StudentServiceImpl implements StudentService {
 		} catch (DaoException e) {
 			logger.error("[StudentServiceImpl:createTreeNode:专业查询失败]" + e.getMessage());
 		}
-		
+		if(gid == null && proNodes.size() != 0) {
+			Map<String, String> state = new HashMap<>();
+			state.put("expanded", "true");
+			proNodes.get(0).setState(state);
+		}
 		return proNodes;
 	}
 
@@ -160,6 +166,71 @@ public class StudentServiceImpl implements StudentService {
 			return studentpDao.update(student);
 		} catch (DaoException e) {
 			logger.error("[StudentServiceImpl:modify]" + e.getMessage());
+			throw new ServiceException(e.getMessage());
+		}
+	}
+
+	@Override
+	public int addPhotoUrl(String id, String photoUrl) throws ServiceException {
+		try {
+			List<Object> args = new ArrayList<>();
+			args.add(photoUrl);
+			args.add(id);
+			return studentpDao.update("photo_url",args);
+		} catch (DaoException e) {
+			logger.error("[StudentServiceImpl:addPhotoUrl]" + e.getMessage());
+			throw new ServiceException(e.getMessage());
+		}
+	}
+
+	@Override
+	public int report(List<String> idArr) throws ServiceException {
+		try {
+			Map<String, Object> argMap = new HashMap<>();
+			argMap.put("report_status", "01");
+			argMap.put("report_date", new Date());
+			return studentpDao.updatesById(idArr, argMap);
+		} catch (DaoException e) {
+			logger.error("[StudentServiceImpl:report]" + e.getMessage());
+			throw new ServiceException(e.getMessage());
+		}
+	}
+
+	@Override
+	public int unReport(List<String> idArr) throws ServiceException {
+		try {
+			Map<String, Object> argMap = new HashMap<>();
+			argMap.put("report_status", "02");
+			argMap.put("report_date", null);
+			return studentpDao.updatesById(idArr, argMap);
+		} catch (DaoException e) {
+			logger.error("[StudentServiceImpl:unReport]" + e.getMessage());
+			throw new ServiceException(e.getMessage());
+		}
+	}
+
+	@Override
+	public int regist(List<String> idArr) throws ServiceException {
+		try {
+			Map<String, Object> argMap = new HashMap<>();
+			argMap.put("regist_status", "01");
+			argMap.put("regist_date", new Date());
+			return studentpDao.updatesById(idArr, argMap);
+		} catch (DaoException e) {
+			logger.error("[StudentServiceImpl:regist]" + e.getMessage());
+			throw new ServiceException(e.getMessage());
+		}
+	}
+	
+	@Override
+	public int unRegist(List<String> idArr) throws ServiceException {
+		try {
+			Map<String, Object> argMap = new HashMap<>();
+			argMap.put("regist_status", "02");
+			argMap.put("regist_date", null);
+			return studentpDao.updatesById(idArr, argMap);
+		} catch (DaoException e) {
+			logger.error("[StudentServiceImpl:unReport]" + e.getMessage());
 			throw new ServiceException(e.getMessage());
 		}
 	}

@@ -127,13 +127,9 @@
 				type: "post",
 				url: "permissions/professional/dels",
 				data: {data:data},
-				dataType: "JSON",
 				success: function(msg) {
-					if(msg != 0 ) {
-						refreshTable($(".currentPage").attr("data-currentPage"));
-					} else {
-						alert("未知原因，删除失败");
-					}
+					alert(msg);
+					refreshTable($(".currentPage").attr("data-currentPage"));
 				}
 			})
 		}
@@ -200,7 +196,7 @@
 			alert("请选择至少一个行内容再停用");
 			return;
 		}
-		if(confirm("请确认要停用该专业?若还存在班级使用该专业，将不能删除!")) {
+		if(confirm("请确认要停用该专业?若还存在班级使用该专业，将不能停用!")) {
 			var data = JSON.stringify(idArr);
 			$.ajax({
 				type: "post",

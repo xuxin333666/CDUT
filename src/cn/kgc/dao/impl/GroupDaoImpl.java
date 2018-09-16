@@ -117,4 +117,10 @@ public class GroupDaoImpl extends BaseDaoImpl<Group> implements GroupDao {
 		sb.append(" ORDER BY g.id + 0");
 		return queryByConditions(sb.toString(), Group.class , Professional.class, columnName, values);
 	}
+
+
+	@Override
+	public int updates(List<String> idArr, String arg) throws DaoException {
+		return updatesById("UPDATE t_group SET ",idArr, "status", arg);
+	}
 }

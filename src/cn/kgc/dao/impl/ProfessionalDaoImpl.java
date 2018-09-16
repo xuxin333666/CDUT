@@ -99,7 +99,7 @@ public class ProfessionalDaoImpl extends BaseDaoImpl<Professional> implements Pr
 
 	@Override
 	public int updates(List<String> idArr,String arg) throws DaoException {
-		return super.updateById("UPDATE t_professional SET status=? WHERE id=?", idArr, arg);
+		return updateById("UPDATE t_professional SET status=? WHERE id=?", idArr, arg);
 	}
 
 	@Override

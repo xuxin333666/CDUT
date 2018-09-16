@@ -23,4 +23,8 @@ public interface GroupService {
 
 	int deletes(List<String> idArr) throws ServiceException;
 
+	int enable(List<String> idArr) throws ServiceException;
+
+	int disable(List<String> idArr) throws ServiceException;
+
 }

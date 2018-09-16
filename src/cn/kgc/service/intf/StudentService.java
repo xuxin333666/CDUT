@@ -24,4 +24,14 @@ public interface StudentService {
 
 	int modify(Student student) throws ServiceException;
 
+	int addPhotoUrl(String id, String photoUrl) throws ServiceException;
+
+	int report(List<String> idArr) throws ServiceException;
+
+	int unReport(List<String> idArr) throws ServiceException;
+
+	int regist(List<String> idArr) throws ServiceException;
+	
+	int unRegist(List<String> idArr) throws ServiceException;
+
 }

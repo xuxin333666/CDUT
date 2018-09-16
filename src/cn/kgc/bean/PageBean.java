@@ -10,7 +10,9 @@ public class PageBean<T> {
 	
 	
 	public PageBean(int dataCount) {
-		if(dataCount % countPerPage == 0) {
+		if(dataCount == 0) {
+			this.totalNumberOfPages = 1;
+		} else if(dataCount % countPerPage == 0) {
 			this.totalNumberOfPages = dataCount / countPerPage;
 		} else {
 			this.totalNumberOfPages = dataCount / countPerPage + 1;

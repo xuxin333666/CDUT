@@ -42,7 +42,7 @@
 				        <div class="btn-toolbar" role="toolbar" aria-label="...">
 				            <div class="btn-group" role="group" aria-label="...">
 				                <button type="button" class="btn btn-primary student_add">国网注册</button>
-				                <button type="button" class="btn btn-info student_fileUpload">信息采集</button>
+				                <button type="button" class="btn btn-info student_fileUpload" data-toggle="modal">信息采集</button>
 				                <button type="button" class="btn btn-success student_modify">修改</button>
 				            </div>
 				            
@@ -70,6 +70,24 @@
 	       <button type="button" class="btn btn-primary saveChangeBtn">保存</button>
 	       <button type="button" class="btn btn-default quitBtn">退出</button>
 		</div>
+	</div>
+	
+	
+	<div class="modal fade bs-example-modal-sm studentModal_modify" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel">
+	  <div class="modal-dialog" role="document">
+	    <div class="modal-content">
+	     <div class="modal-header">
+	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+	        <h4 class="modal-title" id="myModalLabel">信息采集</h4>
+	      </div>
+	      <div class="modal-body studentModalBody_modify">
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default" data-dismiss="modal">退出</button>
+	        <button type="button" class="btn btn-primary uploadSave">保存修改</button>
+	      </div>
+	    </div>
+	  </div>
 	</div>
 	
 	<script>
@@ -124,6 +142,8 @@
 	function modifyChange() {
 		$(".studentRow").toggleClass("hidden");
 	}
+	
+
 	
 	
 	//新建
@@ -194,34 +214,6 @@
 	})
 	
 
-	/*
-	
-	$(".group_del").on("click",function() {
-		var idArr = select2Arr(".groupCt .selectItem");
-		if(idArr.length == 0) {
-			alert("请选择至少一个行内容再删除");
-			return;
-		}
-		if(confirm("是否确定删除？")) {
-			var data = JSON.stringify(idArr);
-			$.ajax({
-				type: "post",
-				url: "permissions/group/dels",
-				data: {data:data},
-				dataType: "JSON",
-				success: function(msg) {
-					if(msg != 0 ) {
-						refreshTable($(".currentPage").attr("data-currentPage"));
-					} else {
-						alert("未知原因，删除失败");
-					}
-				}
-			})
-		}
-	})
-	
-	
-	*/
 	//班级树调用
 	function getTree() {
 		return ${nodes}; 
@@ -234,7 +226,37 @@
 		submitStudentForm();
 	}
 	 
-	$('#tree').treeview({data: getTree(),levels: 1});             
+	$('#tree').treeview({data: getTree(),levels: 1});     
+	
+	//上传头像打开监听
+	$(".student_fileUpload").on("click",function() {
+		registTableModifySelect($(".studentCt"),function(id) {
+			$('.studentModal_modify').modal('toggle');
+			$(".studentModalBody_modify").load("permissions/student/pro_fileUpload?id=" + id);
+		});
+	})
+	
+	
+	//上传头像保存监听
+	$(".uploadSave").on("click",function() {
+		var photoUrl = $(".TXpreView").attr("src");
+		var id = $(".uploadForm input[name=id]").val();
+		$.ajax({
+			type: "post",
+			url: "permissions/student/saveUpload",
+			data: {id:id,photoUrl:photoUrl},
+			success: function(msg){
+				if(msg == 1) {
+					$('.studentModal_modify').modal('toggle');
+					setTimeout(function() {
+						refreshTable($(".currentPage").attr("data-currentPage"));
+					},300);
+				}else {
+					alert("修改保存失败," + msg);
+				}
+			}
+		});
+	})
 	</script>
 </body>
 </html>

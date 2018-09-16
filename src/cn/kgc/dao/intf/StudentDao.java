@@ -19,4 +19,8 @@ public interface StudentDao {
 
 	int update(Student student) throws DaoException;
 
+	int update(String key, List<Object> args) throws DaoException;
+
+	int updatesById(List<String> idArr, Map<String, Object> argMap) throws DaoException;
+
 }

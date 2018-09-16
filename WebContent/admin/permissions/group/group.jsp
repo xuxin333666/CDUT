@@ -159,13 +159,9 @@
 				type: "post",
 				url: "permissions/group/dels",
 				data: {data:data},
-				dataType: "JSON",
 				success: function(msg) {
-					if(msg != 0 ) {
-						refreshTable($(".currentPage").attr("data-currentPage"));
-					} else {
-						alert("未知原因，删除失败");
-					}
+					alert(msg);
+					refreshTable($(".currentPage").attr("data-currentPage"));
 				}
 			})
 		}
@@ -203,6 +199,51 @@
 			}
 		});
 	})
+	
+	$(".group_enable").on("click",function() {
+		var idArr = select2Arr(".groupCt .selectItem");
+		if(idArr.length == 0) {
+			alert("请选择至少一个行内容再启用");
+			return;
+		}
+		if(confirm("请确认要启用该班级?")) {
+			var data = JSON.stringify(idArr);
+			$.ajax({
+				type: "post",
+				url: "permissions/group/enable",
+				data: {data:data},
+				dataType: "json",
+				success: function(msg){
+					if(msg != 0) {
+						refreshTable($(".currentPage").attr("data-currentPage"));
+					}else {
+						alert("班级启用失败");
+					}
+				}
+			});
+		}
+	})
+	
+	$(".group_disable").on("click",function() {
+		var idArr = select2Arr(".groupCt .selectItem");
+		if(idArr.length == 0) {
+			alert("请选择至少一个行内容再停用");
+			return;
+		}
+		if(confirm("请确认要停用该班级?若还存在学生使用该班级，将不能停用!")) {
+			var data = JSON.stringify(idArr);
+			$.ajax({
+				type: "post",
+				url: "permissions/group/disable",
+				data: {data:data},
+				success: function(msg){
+					alert(msg);
+					refreshTable($(".currentPage").attr("data-currentPage"));
+				}
+			});
+		}
+	})
+	
 
 	
 	//专业树点击监听

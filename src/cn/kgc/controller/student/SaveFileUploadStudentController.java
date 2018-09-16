@@ -1,7 +1,6 @@
-package cn.kgc.controller.group;
+package cn.kgc.controller.student;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -12,22 +11,21 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.alibaba.fastjson.JSONArray;
 
 import cn.kgc.exception.ServiceException;
-import cn.kgc.service.impl.GroupServiceImpl;
-import cn.kgc.service.intf.GroupService;
+import cn.kgc.service.impl.StudentServiceImpl;
+import cn.kgc.service.intf.StudentService;
 
 
 
-@WebServlet("/admin/permissions/group/dels")
-public class DelGroupController extends HttpServlet {
+@WebServlet("/admin/permissions/student/saveUpload")
+public class SaveFileUploadStudentController extends HttpServlet {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final Logger logger = LoggerFactory.getLogger(DelGroupController.class); 
+	private static final Logger logger = LoggerFactory.getLogger(SaveFileUploadStudentController.class); 
 	
 
 	@Override
@@ -37,18 +35,17 @@ public class DelGroupController extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		GroupService groupService = new GroupServiceImpl();
-		String idArrStr = req.getParameter("data");
+		StudentService studnetService = new StudentServiceImpl();
+		String id = req.getParameter("id");
+		String photoUrl = req.getParameter("photoUrl");
 		
-		List<String> idArr = JSONArray.parseArray(idArrStr,String.class);
-		
+		int status = 0;
 		try {
-			groupService.deletes(idArr);
-			resp.getWriter().print("É¾³ý³É¹¦");
-
+			status = studnetService.addPhotoUrl(id,photoUrl);
+			resp.getWriter().println(status);
 		} catch (ServiceException e) {
-			logger.error("[DelGroupController:doPost]" + e.getMessage());
-			resp.getWriter().print(e.getMessage());
+			logger.error("[SaveFileUploadStudentController:doPost]" + e.getMessage());
+			resp.getWriter().println(e.getMessage());
 		}
 		
 	}

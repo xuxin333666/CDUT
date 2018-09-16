@@ -20,15 +20,15 @@ import cn.kgc.service.intf.GroupService;
 
 
 
-@WebServlet("/admin/permissions/group/dels")
-public class DelGroupController extends HttpServlet {
+@WebServlet("/admin/permissions/group/enable")
+public class EnableGroupController extends HttpServlet {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final Logger logger = LoggerFactory.getLogger(DelGroupController.class); 
 	
+	private static final Logger logger = LoggerFactory.getLogger(EnableGroupController.class); 
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -38,19 +38,19 @@ public class DelGroupController extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		GroupService groupService = new GroupServiceImpl();
+		
 		String idArrStr = req.getParameter("data");
 		
 		List<String> idArr = JSONArray.parseArray(idArrStr,String.class);
 		
+		int status = 0;
 		try {
-			groupService.deletes(idArr);
-			resp.getWriter().print("É¾³ý³É¹¦");
-
+			status = groupService.enable(idArr);
 		} catch (ServiceException e) {
-			logger.error("[DelGroupController:doPost]" + e.getMessage());
-			resp.getWriter().print(e.getMessage());
+			logger.error("[EnableGroupController:doPost]" + e.getMessage());
 		}
 		
+		resp.getWriter().print(status);
 	}
 	
 	

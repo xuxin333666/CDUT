@@ -17,7 +17,7 @@ import cn.kgc.exception.DaoException;
 import cn.kgc.utils.DBPoolConnection;
 import cn.kgc.utils.DateUtils;
 
-public class BaseDaoImpl<T> {
+public class BaseDaoImpl<T> extends BaseDao2<T> {
 	
 	protected final String SQL_ERORR = "后台数据错误，";
 	

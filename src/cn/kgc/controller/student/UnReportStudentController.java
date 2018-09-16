@@ -1,4 +1,4 @@
-package cn.kgc.controller.group;
+package cn.kgc.controller.student;
 
 import java.io.IOException;
 import java.util.List;
@@ -15,20 +15,20 @@ import org.slf4j.LoggerFactory;
 import com.alibaba.fastjson.JSONArray;
 
 import cn.kgc.exception.ServiceException;
-import cn.kgc.service.impl.GroupServiceImpl;
-import cn.kgc.service.intf.GroupService;
+import cn.kgc.service.impl.StudentServiceImpl;
+import cn.kgc.service.intf.StudentService;
 
 
 
-@WebServlet("/admin/permissions/group/dels")
-public class DelGroupController extends HttpServlet {
+@WebServlet("/admin/permissions/student/unregist")
+public class UnReportStudentController extends HttpServlet {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private static final Logger logger = LoggerFactory.getLogger(DelGroupController.class); 
 	
+	private static final Logger logger = LoggerFactory.getLogger(UnReportStudentController.class); 
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -37,20 +37,21 @@ public class DelGroupController extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		GroupService groupService = new GroupServiceImpl();
+		StudentService studnetService = new StudentServiceImpl();
+		
 		String idArrStr = req.getParameter("data");
 		
 		List<String> idArr = JSONArray.parseArray(idArrStr,String.class);
 		
+		String msg = "";
 		try {
-			groupService.deletes(idArr);
-			resp.getWriter().print("删除成功");
-
+			studnetService.unRegist(idArr);
+			msg = "已确认未注册";
 		} catch (ServiceException e) {
-			logger.error("[DelGroupController:doPost]" + e.getMessage());
-			resp.getWriter().print(e.getMessage());
+			logger.error("[UnReportStudentController:doPost]" + e.getMessage());
+			msg = e.getMessage();
 		}
-		
+		resp.getWriter().print(msg);
 	}
 	
 	

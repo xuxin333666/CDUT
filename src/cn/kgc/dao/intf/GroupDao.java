@@ -25,4 +25,6 @@ public interface GroupDao {
 
 	List<Group> query(Map<String, String[]> keys) throws DaoException;
 
+	int updates(List<String> idArr, String string) throws DaoException;
+
 }

@@ -42,14 +42,14 @@ public class DelProfessionalController extends HttpServlet {
 		
 		List<String> idArr = JSONArray.parseArray(idArrStr,String.class);
 		
-		int status = 0;
 		try {
-			status = professionalService.deletes(idArr);
+			professionalService.deletes(idArr);
+			resp.getWriter().print("É¾³ý³É¹¦");
 		} catch (ServiceException e) {
 			logger.error("[DelProfessionalController:doPost]" + e.getMessage());
+			resp.getWriter().print(e.getMessage());
 		}
 		
-		resp.getWriter().print(status);
 	}
 	
 	
