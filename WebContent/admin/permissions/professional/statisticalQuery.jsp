@@ -7,15 +7,15 @@
 		    <div class="panel panel-info">
 		        <div class="panel-heading">
 		            <h4 class="panel-title ">
-	                	<a data-toggle="collapse" data-parent="#statisticalQuerySelectTree" href="#statisticalQuerySelectTreeList" onclick="statisticalQueryTreeClick('')">
-		            	专业
+	                	<a data-toggle="collapse" data-parent="#statisticalQuerySelectTree" href="#statisticalQuerySelectTreeList">
+		            	统计图表类型 
 	                	</a>
 	            	</h4>
 		        </div>
 		        <div id="statisticalQuerySelectTreeList" class="panel-collapse collapse in statisticalTypeSelectCt">
-		            <div class="panel-body text-primary statisticalTypeSelect" data-type="bar" onclick="statisticalQueryTreeClick('bar')">柱状图</div>
-    		        <div class="panel-body statisticalTypeSelect" data-type="pie" onclick="statisticalQueryTreeClick('pie')">饼图</div>
-    		        <div class="panel-body statisticalTypeSelect" data-type="stepLine" onclick="statisticalQueryTreeClick('stepLine')">折线图</div>
+		            <div class="panel-body text-primary statisticalTypeSelect" data-type="bar">柱状图</div>
+    		        <div class="panel-body statisticalTypeSelect" data-type="pie">饼图</div>
+    		        <div class="panel-body statisticalTypeSelect" data-type="stepLine">折线图</div>
 		        </div>
 		    </div>
 		</div>

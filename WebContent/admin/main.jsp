@@ -30,7 +30,7 @@
                 color: white;
             }
             .userInfo {
-                padding: 15px 20px;
+                padding: 8px 20px;
                 text-align: right;
             }
             .row.body {

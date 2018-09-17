@@ -55,14 +55,14 @@ public class UserController extends CoreController {
 		if(msg!=null){
 			req.setAttribute("msg", msg);
 			logger.error("[UserController:login]" + msg);
-			req.getRequestDispatcher("index.jsp").forward(req, resp);
+			resp.getWriter().println(msg);
 		}else{
 			session.setAttribute(SESSION__USER_COUNT, new UserCountListener());
 			if("123".equals(password)) {
 				req.setAttribute("username", username);
 				req.getRequestDispatcher("moidfypwd.jsp").forward(req, resp);
 			} else {
-				resp.sendRedirect("admin/main?command=index");
+				resp.getWriter().print(true);
 			}
 		}
 	}

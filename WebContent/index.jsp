@@ -31,8 +31,8 @@
         <![endif]-->
     </head>
     <body>
-	    <div class="indexheader">
-            <img src="img/CDUT_logo.jpg" alt=""  style="width: 250px;height:70px" class="headerBrand">
+	    <!-- <div class="indexheader">
+            <img src="img/cdut.jpg" alt=""  style="width: 250px;height:70px" class="headerBrand">
             <div class="headerContentCt">
                 <div class="item">
                     <svg class="icon" aria-hidden="true">
@@ -53,7 +53,7 @@
                     <span>老版管家</span>
                 </div>
             </div>
-		</div>
+		</div>-->
         <div class="jumbotron">
             <h1 class="text-center">Bootstrap</h1>
             <p class="text-center">Bootstrap 是最受欢迎的 HTML、CSS 和 JS 框架，用于开发响应式布局、移动设备优先的 WEB 项目。</p>
@@ -190,6 +190,26 @@
 
 
     <script>
+    
+		//登录
+		$(".loginForm").on("submit",function() {
+			event.preventDefault();
+			var username = $(this).find("input[name=username]").val();
+			var password = $(this).find("input[name=password]").val();
+			$.ajax({
+				type: "post",
+				url: "login",
+				data:{username:username,password:password},
+				success: function(msg){
+					if(msg === "true") {
+						location = "admin/main?command=index";
+					} else {
+						alert(msg);
+					}
+				}
+			})
+		})
+
 	
 	    // 级联选择
 	    var selectData = {"00":["北京"],"01":["成都","宜宾","绵阳","泸州"],"02":["武汉","宜昌","荆州"],"03":["重庆"]};
