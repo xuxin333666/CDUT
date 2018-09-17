@@ -94,6 +94,8 @@
 	<script src="${pageContext.request.contextPath }/lib/bootstrap-treeview.js"></script>
 	
 	<script src="${pageContext.request.contextPath}/ckeditor/ckeditor.js" type="text/javascript"></script>
+	
+	<script src="${pageContext.request.contextPath }/lib/echarts.js"></script>
     
     <script src="http://at.alicdn.com/t/font_783692_gfwpqhoo67.js"></script>
     

@@ -32,7 +32,7 @@
     </head>
     <body>
 	    <div class="indexheader">
-            <img src="img/LOGO-m.png" alt="" class="headerBrand">
+            <img src="img/CDUT_logo.jpg" alt=""  style="width: 250px;height:70px" class="headerBrand">
             <div class="headerContentCt">
                 <div class="item">
                     <svg class="icon" aria-hidden="true">

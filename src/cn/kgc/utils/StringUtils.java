@@ -45,4 +45,9 @@ public class StringUtils {
 		}
 		return sb.toString();
 	}
+
+	public static String parseURLCommand(String url) {
+		int index = url.lastIndexOf("/");
+		return url.substring(index+1);
+	}
 }

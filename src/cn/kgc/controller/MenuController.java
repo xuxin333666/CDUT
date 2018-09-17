@@ -5,20 +5,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import cn.kgc.model.Menu;
 
-@WebServlet("/admin/main")
-public class BaseController extends HttpServlet {
+public class MenuController extends CoreController {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
 	private static List<Menu> menus = new ArrayList<>();
 	
 	static {
@@ -34,17 +27,27 @@ public class BaseController extends HttpServlet {
 		menus.add(new Menu("310", "学生业务", "#icon-users", null, null, null, "service_student", new Menu("300")));
 		menus.add(new Menu("311", "学生报道", null, null, null, "permissions/student/student_report", "student_report", new Menu("310")));
 		menus.add(new Menu("312", "学生注册", null, null, null, "permissions/student/student_regist", "student_regist", new Menu("310")));
+		menus.add(new Menu("320", "统计查询", "#icon-users", null, null, null, "statisticalQuery", new Menu("300")));
+		menus.add(new Menu("321", "专业人数查询", null, null, null, "permissions/professional/statisticalQuery.jsp", "professional_num_statistical", new Menu("320")));
 		
 		menus.add(new Menu("400", "系统管理", null, null, null, "main?command=systemManagement", "systemManagement", null));
+		
+	}
+	
+	public MenuController() {
+		super.setController(this);
 	}
 
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		this.doPost(req, resp);
+	private void createMenus(List<Menu> secMenus,String id) {
+		for (Menu menu : menus) {
+			if(menu.getParentMenu() != null && id.equals(menu.getParentMenu().getId())) {
+				secMenus.add(menu);
+				createMenus(secMenus,menu.getId());
+			}
+		}
 	}
 
-	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	public void main(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
 		String command = req.getParameter("command");
 		
 		List<Menu> mainMenus = new ArrayList<>();
@@ -61,15 +64,6 @@ public class BaseController extends HttpServlet {
 		req.setAttribute("mainMenus", mainMenus);
 		req.setAttribute("secMenus", secMenus);
 		req.getRequestDispatcher("main.jsp").forward(req, resp);
-	}
-	
-	private void createMenus(List<Menu> secMenus,String id) {
-		for (Menu menu : menus) {
-			if(menu.getParentMenu() != null && id.equals(menu.getParentMenu().getId())) {
-				secMenus.add(menu);
-				createMenus(secMenus,menu.getId());
-			}
-		}
 	}
 
 
