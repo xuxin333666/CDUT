@@ -4,6 +4,8 @@ package cn.kgc.dao.impl;
 import java.lang.reflect.Field;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -273,4 +275,47 @@ public class BaseDao2<T> {
 			}
 		}
 	}
+	
+	
+
+
+	public List<Map<String, Object>> statisticalQuery(String sql) throws DaoException {
+		List<Map<String, Object>> values = new ArrayList<>();
+		DBPoolConnection dbp = new DBPoolConnection();
+		Connection cn = null;
+		PreparedStatement psm = null;
+		ResultSet result = null;
+		try {
+			cn = dbp.getConnection();
+			psm = cn.prepareStatement(sql);
+			result = psm.executeQuery();
+			ResultSetMetaData rsmd = result.getMetaData();
+			int count=rsmd.getColumnCount();
+			String[] name=new String[count];
+			for(int i=0;i<count;i++) {
+				name[i]=rsmd.getColumnName(i+1);
+			}
+			while(result.next()) {
+				Map<String, Object> temp = new HashMap<>();
+				for(int i=0;i<name.length;i++) {
+					temp.put(name[i], result.getObject(name[i]));
+				}
+				values.add(temp);
+			}
+		} catch (Exception e) {
+			logger.error("[BaseDao2:query:数据库异常]" + e.getMessage());
+			throw new DaoException(e.getMessage());
+		} finally {
+			if(cn != null) {
+				try {
+					cn.close();
+				} catch (SQLException e) {
+					logger.error("[BaseDao2:query:数据库连接关闭错误]" + e.getMessage());
+					throw new DaoException(e.getMessage());
+				}
+			}
+		}
+		return values;
+	}
+
 }

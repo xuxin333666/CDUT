@@ -26,6 +26,7 @@ public class CoreController {
 			Method method = controller.getClass().getMethod(methodName, HttpServletRequest.class,HttpServletResponse.class);
 			method.invoke(controller, req,resp);
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.error("[CoreController:execute:∑¥…‰“Ï≥£]" + e.getMessage());
 			req.setAttribute("msg", e.getMessage());
 			req.getRequestDispatcher("/error.jsp").forward(req, resp);

@@ -182,7 +182,7 @@
 
 			<div class="form-group">
 				<!-- Text input-->
-				<label class="control-label" for="admissionDate">报道日期</label>
+				<label class="control-label" for="admissionDate">入学日期</label>
 				<input id="admissionDate" type="text" class="form-control student_date" name="admissionDate" value="${student.admissionDate }">
 				<p class="help-block">使用控件填写时间</p>
 			</div>  

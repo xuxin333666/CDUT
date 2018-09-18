@@ -16,10 +16,8 @@ import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.alibaba.fastjson.JSON;
 
 import cn.kgc.Listener.UserCountListener;
-import cn.kgc.model.User;
 import cn.kgc.service.impl.UserServiceImpl;
 import cn.kgc.service.intf.UserService;
 
@@ -58,7 +56,7 @@ public class UserController extends CoreController {
 			resp.getWriter().println(msg);
 		}else{
 			session.setAttribute(SESSION__USER_COUNT, new UserCountListener());
-			if("123".equals(password)) {
+			if("1234".equals(password)) {
 				req.setAttribute("username", username);
 				req.getRequestDispatcher("moidfypwd.jsp").forward(req, resp);
 			} else {
@@ -79,15 +77,6 @@ public class UserController extends CoreController {
 		}
 	}
 	
-	public void signOut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.getSession().invalidate();
-		resp.sendRedirect("main.jsp");
-	}
-	
-	public void getUserInfo(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		User user = (User)req.getSession().getAttribute(SESSION__USER_COUNT);
-		resp.getWriter().print(JSON.toJSON(user));
-	}
 	
 	public void getUserOnLineCount(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String count = UserCountListener.getUserCount().toString();

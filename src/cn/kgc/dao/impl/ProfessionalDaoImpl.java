@@ -107,6 +107,11 @@ public class ProfessionalDaoImpl extends BaseDaoImpl<Professional> implements Pr
 		return query("SELECT * FROM t_professional WHERE " + cloName + " = "+ value +" ORDER BY id + 0", Professional.class, null, columnName);
 	}
 
+	@Override
+	public List<Map<String, Object>> statisticalQuery(String sql) throws DaoException {
+		return super.statisticalQuery(sql);
+	}
+
 
 
 }

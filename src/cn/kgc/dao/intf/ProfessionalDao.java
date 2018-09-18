@@ -28,5 +28,7 @@ public interface ProfessionalDao {
 
 	int updates(List<String> idArr,String arg) throws DaoException;
 
+	List<Map<String, Object>> statisticalQuery(String sql) throws DaoException;
+
 
 }

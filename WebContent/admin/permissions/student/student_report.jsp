@@ -27,7 +27,7 @@
 							    	<option value="${reportStatus.key }">${reportStatus.value }</option>
 							    </c:forEach>
 						    </select>
-							<input class="myMarginLeft20 btn btn-primary " type="submit" value="查询"><input type="hidden" name="page" value="1"><input type="hidden" name="gid" value="${maps.gid[0] }">
+							<input class="myMarginLeft20 btn btn-primary " type="submit" value="查询"><input type="hidden" name="page" value="1"><input type="hidden" name="gid" value="${maps.gid[0] }"><input type="hidden" name="pid" value="${maps.pid[0] }">
 						</div>
 					</form>
 				</div>
@@ -134,6 +134,15 @@
 	function groupTreeClick(gid) {
 		$(".student_reportForm").find("input[name=page]").val(1);
 		$(".student_reportForm").find("input[name=gid]").val(gid);
+		$(".student_reportForm").find("input[name=pid]").val("");
+		submitStudentForm();
+	}
+	
+	
+	function proTreeClick(pid) {
+		$(".student_reportForm").find("input[name=page]").val(1);
+		$(".student_reportForm").find("input[name=pid]").val(pid);
+		$(".student_reportForm").find("input[name=gid]").val("");
 		submitStudentForm();
 	}
 	 

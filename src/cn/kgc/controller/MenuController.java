@@ -15,22 +15,22 @@ public class MenuController extends CoreController {
 	private static List<Menu> menus = new ArrayList<>();
 	
 	static {
-		menus.add(new Menu("100", "基础数据", null, null, null, "main?command=baseDate", "baseDate", null));
-		menus.add(new Menu("110", "基础设置", "#icon-users", null, null, null, "base", new Menu("100")));
-		menus.add(new Menu("111", "专业管理", null, null, null, "permissions/professional/mainTable", "professional", new Menu("110")));
-		menus.add(new Menu("112", "班级管理", null, null, null, "permissions/group/mainTable", "group", new Menu("110")));
-		menus.add(new Menu("113", "学生档案", null, null, null, "permissions/student/mainTable", "student", new Menu("110")));
+		menus.add(new Menu("100", "基础数据", null, null, null, "main?command=baseDate", "baseDate:query", null));
+		menus.add(new Menu("110", "基础设置", "#icon-users", null, null, null, "base:main", new Menu("100")));
+		menus.add(new Menu("111", "专业管理", null, null, null, "permissions/professional/mainTable", "professional:main", new Menu("110")));
+		menus.add(new Menu("112", "班级管理", null, null, null, "permissions/group/mainTable", "group:main", new Menu("110")));
+		menus.add(new Menu("113", "学生档案", null, null, null, "permissions/student/mainTable", "student:main", new Menu("110")));
 		
-		menus.add(new Menu("200", "学生日常", null, null, null, "main?command=studentDay", "studentDay", null));
+		menus.add(new Menu("200", "学生日常", null, null, null, "main?command=studentDay", "studentDay:query", null));
 		
-		menus.add(new Menu("300", "学籍管理", null, null, null, "main?command=studentStatus", "studentStatus", null));
-		menus.add(new Menu("310", "学生业务", "#icon-users", null, null, null, "service_student", new Menu("300")));
-		menus.add(new Menu("311", "学生报道", null, null, null, "permissions/student/student_report", "student_report", new Menu("310")));
-		menus.add(new Menu("312", "学生注册", null, null, null, "permissions/student/student_regist", "student_regist", new Menu("310")));
-		menus.add(new Menu("320", "统计查询", "#icon-users", null, null, null, "statisticalQuery", new Menu("300")));
-		menus.add(new Menu("321", "专业人数查询", null, null, null, "permissions/professional/statisticalQuery.jsp", "professional_num_statistical", new Menu("320")));
+		menus.add(new Menu("300", "学籍管理", null, null, null, "main?command=studentStatus", "studentStatus:query", null));
+		menus.add(new Menu("310", "学生业务", "#icon-users", null, null, null, "service_student:main", new Menu("300")));
+		menus.add(new Menu("311", "学生报道", null, null, null, "permissions/student/student_report", "student_report:main", new Menu("310")));
+		menus.add(new Menu("312", "学生注册", null, null, null, "permissions/student/student_regist", "student_regist:main", new Menu("310")));
+		menus.add(new Menu("320", "统计查询", "#icon-users", null, null, null, "statisticalQuery:main", new Menu("300")));
+		menus.add(new Menu("321", "专业人数查询", null, null, null, "permissions/professional/statisticalQuery.jsp", "professional_num_statistical:main", new Menu("320")));
 		
-		menus.add(new Menu("400", "系统管理", null, null, null, "main?command=systemManagement", "systemManagement", null));
+		menus.add(new Menu("400", "系统管理", null, null, null, "main?command=systemManagement", "systemManagement:query", null));
 		
 	}
 	

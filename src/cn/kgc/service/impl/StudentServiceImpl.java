@@ -66,7 +66,7 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public List<treeNode> createTreeNode(String gid) throws ServiceException {
+	public List<treeNode> createTreeNode(String gid,String pid) throws ServiceException {
 		ProfessionalDao proDao = new ProfessionalDaoImpl();
 		GroupDao groupDao = new GroupDaoImpl();
 		List<treeNode> proNodes = new ArrayList<>();
@@ -74,10 +74,17 @@ public class StudentServiceImpl implements StudentService {
 			List<Professional> pros = proDao.query("status", "01");
 			for (Professional professional : pros) {
 				treeNode pronode = new treeNode();
-				pronode.setText(professional.getName());
+				pronode.setText("<span onclick='proTreeClick(\""+ professional.getId() +"\")'>"+ professional.getName() +"</span>");
 				List<treeNode> groupNodes = new ArrayList<>();
 				pronode.setNodes(groupNodes);
 				proNodes.add(pronode);
+				if(pid != null && pid.equals(professional.getId())) {
+					Map<String, String> state = new HashMap<>();
+					state.put("checked", "true");
+					state.put("expanded", "true");
+					state.put("selected", "true");
+					pronode.setState(state);
+				}
 				try {
 					Map<String, String[]> keys = new HashMap<>();
 					keys.put("g.status", new String[]{"01"});

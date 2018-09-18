@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -48,8 +49,12 @@
 				                <button type="button" class="btn btn-info group_del">删除</button>
 				            </div>
 				            <div class="btn-group" role="group" aria-label="...">
+				            <shiro:hasPermission name="group:enable">
 								<button type="button" class="btn btn-primary group_enable" data-toggle="modal">启用</button>
+				            </shiro:hasPermission>
+				             <shiro:hasPermission name="group:disable">
 				                <button type="button" class="btn btn-success group_disable" data-toggle="modal">停用</button>
+				             </shiro:hasPermission>
 				            </div>
 				            <div class="btn-group float-right user-set" role="group" aria-label="...">
 				                <button type="button" class="btn btn-default">设置</button>

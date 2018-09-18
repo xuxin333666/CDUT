@@ -32,7 +32,7 @@
 						<div class="form-group myMargintop20">
 							<label for="studentMinDate">入学日期：</label><input  class="form-control dateInput" autocomplete="off" style="width:120px" size="16" type="text" name="studentMinDate" id="studentMinDate" value="${maps.studentMinDate[0] }" readonly/> —— <input class="form-control dateInput" autocomplete="off" style="width:120px" size="16" type="text" name="studentMaxDate" id="studentMaxDate" value="${maps.studentMaxDate[0] }" readonly/>
 							<label class="myMarginLeft20" for="groupName">班级名称：</label><input type="text" class="form-control" style="width:120px" name="gname" id="groupName" value="${maps.gname[0] }"/>
-							<input class="myMarginLeft20 btn btn-primary " type="submit" value="查询"><input type="hidden" name="page" value="1"><input type="hidden" name="gid" value="${maps.gid[0] }">
+							<input class="myMarginLeft20 btn btn-primary " type="submit" value="查询"><input type="hidden" name="page" value="1"><input type="hidden" name="gid" value="${maps.gid[0] }"><input type="hidden" name="pid" value="${maps.pid[0] }">
 						</div>
 					</form>
 				</div>
@@ -219,10 +219,20 @@
 		return ${nodes}; 
 	}
 	
+	
+	
 	//专业树点击监听
 	function groupTreeClick(gid) {
 		$(".studentForm").find("input[name=page]").val(1);
 		$(".studentForm").find("input[name=gid]").val(gid);
+		$(".studentForm").find("input[name=pid]").val("");
+		submitStudentForm();
+	}
+	
+	function proTreeClick(pid) {
+		$(".studentForm").find("input[name=page]").val(1);
+		$(".studentForm").find("input[name=pid]").val(pid);
+		$(".studentForm").find("input[name=gid]").val("");
 		submitStudentForm();
 	}
 	 

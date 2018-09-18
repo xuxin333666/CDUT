@@ -157,6 +157,7 @@ public class StudentController extends CoreController {
 	public void mainTable(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Map<String, String[]> feilds = req.getParameterMap();
 		String gid = req.getParameter("gid");
+		String pid = req.getParameter("pid");
 		PageBean<Student> pageBean = null;
 		try {
 			pageBean = new PageBean<>(studnetService.getCount(feilds));
@@ -175,7 +176,7 @@ public class StudentController extends CoreController {
 		
 		List<treeNode> proNodes = null;
 		try {
-			proNodes = studnetService.createTreeNode(gid);
+			proNodes = studnetService.createTreeNode(gid,pid);
 		} catch (ServiceException e) {
 			logger.error("[StudentController:mainTable:树构建失败]" + e.getMessage());
 		}
@@ -194,6 +195,7 @@ public class StudentController extends CoreController {
 	public void student_regist(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Map<String, String[]> feilds = req.getParameterMap();
 		String gid = req.getParameter("gid");
+		String pid = req.getParameter("pid");
 		PageBean<Student> pageBean = null;
 		try {
 			pageBean = new PageBean<>(studnetService.getCount(feilds));
@@ -212,7 +214,7 @@ public class StudentController extends CoreController {
 		
 		List<treeNode> proNodes = null;
 		try {
-			proNodes = studnetService.createTreeNode(gid);
+			proNodes = studnetService.createTreeNode(gid,pid);
 		} catch (ServiceException e) {
 			logger.error("[StudentController:student_regist:树构建失败]" + e.getMessage());
 		}
@@ -231,6 +233,7 @@ public class StudentController extends CoreController {
 	public void student_report(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Map<String, String[]> feilds = req.getParameterMap();
 		String gid = req.getParameter("gid");
+		String pid = req.getParameter("pid");
 		PageBean<Student> pageBean = null;
 		try {
 			pageBean = new PageBean<>(studnetService.getCount(feilds));
@@ -249,7 +252,7 @@ public class StudentController extends CoreController {
 		
 		List<treeNode> proNodes = null;
 		try {
-			proNodes = studnetService.createTreeNode(gid);
+			proNodes = studnetService.createTreeNode(gid,pid);
 		} catch (ServiceException e) {
 			logger.error("[StudentController:student_report:树构建失败]" + e.getMessage());
 		}

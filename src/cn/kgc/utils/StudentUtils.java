@@ -162,6 +162,8 @@ public class StudentUtils {
 			return "g.name";
 		} else if("gid".equals(string)) {
 			return "g.id";
+		} else if("pid".equals(string)) {
+			return "p.id";
 		} else {
 			return string;
 		}

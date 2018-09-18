@@ -1,7 +1,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8" errorPage="/TestWeb/temp/error.jsp"%>
-
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <nav class="navbar navbar-default">
   <div class="container-fluid">
       <!-- Brand and toggle get grouped for better mobile display -->
@@ -29,7 +29,9 @@
               </form>
               <ul class="nav navbar-nav navbar-right">
               <c:forEach items="${mainMenus}" var="menu">
-		          <li><a href="main?command=${menu.tagName}">${menu.name}</a></li>
+	              <shiro:hasPermission name="${menu.tagName}">
+			          <li><a href="main?command=${menu.tagName}">${menu.name}</a></li>
+	              </shiro:hasPermission>
               </c:forEach>
 			      
                   <li class="dropdown">

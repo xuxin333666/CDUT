@@ -11,8 +11,12 @@ import org.slf4j.LoggerFactory;
 import cn.kgc.bean.PageBean;
 import cn.kgc.dao.impl.GroupDaoImpl;
 import cn.kgc.dao.impl.ProfessionalDaoImpl;
+import cn.kgc.dao.impl.StudentDaoImpl;
 import cn.kgc.dao.intf.GroupDao;
 import cn.kgc.dao.intf.ProfessionalDao;
+import cn.kgc.dao.intf.StudentDao;
+import cn.kgc.dto.EChartsBarDto;
+import cn.kgc.dto.EChartsPieDto;
 import cn.kgc.exception.DaoException;
 import cn.kgc.exception.ServiceException;
 import cn.kgc.model.Professional;
@@ -164,6 +168,94 @@ public class ProfessionalServiceImpl implements ProfessionalService {
 		}
 		idArr.removeAll(errorList);
 		return errorList;
+	}
+
+	@Override
+	public EChartsPieDto studentNumInProByPie() throws ServiceException {
+		StudentDao studentDao = new StudentDaoImpl();
+		List<Map<String, String>> data = new ArrayList<>();
+		Map<String, String> tempMap = new HashMap<>();
+		Map<String, String[]> feilds = null;
+		try {
+			List<Professional> pros = professionalDao.query();
+			int count = 0;
+			for (Professional professional : pros) {
+				count = 0;
+				tempMap = new HashMap<>();
+				if("01".equals(professional.getStatus())) {
+					feilds = new HashMap<>();
+					feilds.put("p.id", new String[]{professional.getId()});
+					count = studentDao.getCount(feilds);
+					tempMap.put("name", professional.getName());
+				} else {
+					tempMap.put("name", professional.getName() + "(未启用)");
+				}
+				tempMap.put("value", count + "");
+				data.add(tempMap);
+			}
+		} catch (DaoException e) {
+			logger.error("[ProfessionalServiceImpl:studentNumInProByPie]" + e.getMessage());
+			throw new ServiceException(e.getMessage());
+		}
+		return new EChartsPieDto("各专业学生人数饼图", data);
+	}
+
+	@Override
+	public EChartsBarDto studentNumInProByBar() throws ServiceException {
+		List<String> xAxisData = new ArrayList<>();
+		
+		List<String> legendNames = new ArrayList<>();
+		legendNames.add("人数");
+		legendNames.add("男生人数");
+		legendNames.add("女生人数");
+		
+		List<String> snames = new ArrayList<>();
+		List<List<String>> datas = new ArrayList<>();
+		List<String> maleCount = new ArrayList<>();
+		List<String> femaleCount = new ArrayList<>();
+		List<String> count = new ArrayList<>();
+		snames.add("人数");
+		snames.add("男生人数");
+		snames.add("女生人数");
+		try {
+			String proName = null;
+			String gender = null;
+			List<Map<String, Object>> values = professionalDao.statisticalQuery("select p.name,s.gender,count(1) as c FROM t_student AS s RIGHT JOIN ( t_group as g RIGHT JOIN t_professional as p on g.pro_id = p.id) on s.group_id = g.id group by s.gender,p.name order by p.name,s.gender+0");
+			for (int i=0;i<values.size();i++) {
+				proName = (String)values.get(i).get("name");
+				if(!xAxisData.contains(proName)) {
+					xAxisData.add(proName);
+					gender = (String)values.get(i).get("gender");
+					String malec = "0";
+					String femalec = "0";
+					if("01".equals(gender)) {
+						malec = values.get(i).get("c") + "";
+						if(i+1<values.size() && proName.equals(values.get(i+1).get("name"))) {
+							femalec = values.get(i+1).get("c") + "";
+						}
+					} else if("02".equals(gender)) {
+						femalec = values.get(i).get("c") + "";
+					} else if(gender == null) {
+						if(i+1<values.size() && proName.equals(values.get(i+1).get("name"))) {
+							xAxisData.remove(xAxisData.size()-1);
+							continue;
+						}
+					}
+					maleCount.add(malec);
+					femaleCount.add(femalec);
+					count.add((Integer.parseInt(malec) + Integer.parseInt(femalec)) + "");
+				}
+			}
+			datas.add(count);
+			datas.add(maleCount);
+			datas.add(femaleCount);
+			return new EChartsBarDto("各专业学生人数统计柱状图", legendNames, xAxisData, snames, datas);
+		} catch (DaoException e) {
+			logger.error("[ProfessionalServiceImpl:studentNumInProByBar]" + e.getMessage());
+			throw new ServiceException(e.getMessage());
+		}
+		
+		
 	}
 	
 

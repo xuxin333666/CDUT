@@ -23,24 +23,28 @@
 	<div class="col-xs-10">
 		<div class="row">
 			<div class="col-xs-1"></div>
-			<div class="col-xs-8" id="statisticalQueryCt" style="margin-top:30px;height:350px;"></div>
-			<div class="col-xs-3"></div>
+			<div class="col-xs-10" id="statisticalQueryCt" style="margin-top:30px;height:350px;"></div>
+			<div class="col-xs-1"></div>
 		</div>
 	</div>
 </div>
 
 <script type="text/javascript">
-	
+var proChart;
 $(function() {
 	setTimeout(function() {
 		// 基于准备好的dom，初始化echarts实例
-	    var proChart = echarts.init(document.getElementById('statisticalQueryCt'));
+	    proChart = echarts.init(document.getElementById('statisticalQueryCt'));
 	    
 	    //获取数据的方法
 	    function getDataAndRander(type){
 		      $.get('permissions/professional/statisticalQuery?type=' + type).done(function (data) {
 		   	 		proChart.clear();
-		   	 		proChart.setOption(JSON.parse(data));
+		   	 		if(data === "false") {
+		   	 			alert("数据获取失败，请稍后重试");
+		   	 		} else {
+			   	 		proChart.setOption(JSON.parse(data));
+		   	 		}
 		   		});
 	    } 
 	    

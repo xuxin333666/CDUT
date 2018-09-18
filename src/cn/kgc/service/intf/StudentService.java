@@ -14,8 +14,6 @@ public interface StudentService {
 
 	PageBean<Student> query(PageBean<Student> pageBean, Map<String, String[]> feilds) throws ServiceException;
 
-	List<treeNode> createTreeNode(String gid) throws ServiceException;
-
 	Student query(String id) throws ServiceException;
 
 	Student getNewStudentByGid(String gid) throws ServiceException;
@@ -33,5 +31,7 @@ public interface StudentService {
 	int regist(List<String> idArr) throws ServiceException;
 	
 	int unRegist(List<String> idArr) throws ServiceException;
+
+	List<treeNode> createTreeNode(String gid, String pid) throws ServiceException;
 
 }

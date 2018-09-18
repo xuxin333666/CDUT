@@ -2,7 +2,6 @@ package cn.kgc.controller;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -154,100 +153,77 @@ public class ProfessionalController extends CoreController {
 	}
 	
 	public void statisticalQuery(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		String type = req.getParameter("type");
-		if("stepLine".equals(type)) {
-			List<String> legendData = new ArrayList<>();
-			legendData.add("Step Start");
-			legendData.add("Step Middle");
-			legendData.add("Step End");
-			
-			List<String> xAxisName = new ArrayList<>();
-			xAxisName.add("Mon");
-			xAxisName.add("Tue");
-			xAxisName.add("Wed");
-			xAxisName.add("Thu");
-			xAxisName.add("Fri");
-			xAxisName.add("Sat");
-			xAxisName.add("Sun");
-			
-			List<String> snames = new ArrayList<>();
-			snames.add("Step Start");
-			snames.add("Step Middle");
-			snames.add("Step End");
-			
-			List<String> stepNames = new ArrayList<>();
-			stepNames.add("Start");
-			stepNames.add("Middle");
-			stepNames.add("End");
-			
-			List<List<String>> datas = new ArrayList<>();
-			List<String> temp = new ArrayList<>();
-			temp.add("120");
-			temp.add("120");
-			temp.add("120");
-			temp.add("120");
-			temp.add("120");
-			temp.add("120");
-			temp.add("120");
-			datas.add(temp);
-			
-			temp = new ArrayList<>();
-			temp.add("220");
-			temp.add("220");
-			temp.add("220");
-			temp.add("220");
-			temp.add("220");
-			temp.add("220");
-			temp.add("220");
-			datas.add(temp);
-			
-			temp = new ArrayList<>();
-			temp.add("320");
-			temp.add("320");
-			temp.add("320");
-			temp.add("320");
-			temp.add("320");
-			temp.add("320");
-			temp.add("320");
-			datas.add(temp);
-			EChartsStepLineDto eChartsStepLineDto = new EChartsStepLineDto("测试", legendData, xAxisName, snames, stepNames, datas);
-			resp.getWriter().println(JSON.toJSON(eChartsStepLineDto));
-			
-		} else if("pie".equals(type)) {
-			List<Map<String, String>> data = new ArrayList<>();
-			Map<String, String> tempMap = new HashMap<>();
-			tempMap.put("value", "200");
-			tempMap.put("name", "广告");
-			data.add(tempMap);
-			
-			tempMap = new HashMap<>();
-			tempMap.put("value", "300");
-			tempMap.put("name", "联盟");
-			data.add(tempMap);
-			
-			tempMap = new HashMap<>();
-			tempMap.put("value", "400");
-			tempMap.put("name", "部落");
-			data.add(tempMap);
-			EChartsPieDto eChartsPieDto = new EChartsPieDto("123", data);
-			resp.getWriter().println(JSON.toJSON(eChartsPieDto));
-		} else if("bar".equals(type)) {
-			List<String> xAxisData = new ArrayList<>();
-			xAxisData.add("衬衫");
-			xAxisData.add("羊毛衫");
-			xAxisData.add("雪纺衫");
-			xAxisData.add("裤子");
-			xAxisData.add("高跟鞋");
-			xAxisData.add("袜子");
-			List<String> data = new ArrayList<>();
-			data.add("100");
-			data.add("200");
-			data.add("150");
-			data.add("300");
-			data.add("120");
-			data.add("110");
-			EChartsBarDto eChartsBarDto = new EChartsBarDto("ECharts 入门示例", "销量", xAxisData, "销量", data);
-			resp.getWriter().println(JSON.toJSON(eChartsBarDto));
+		try {
+			String type = req.getParameter("type");
+			if("stepLine".equals(type)) {
+				List<String> legendData = new ArrayList<>();
+				legendData.add("Step Start");
+				legendData.add("Step Middle");
+				legendData.add("Step End");
+				
+				List<String> xAxisName = new ArrayList<>();
+				xAxisName.add("Mon");
+				xAxisName.add("Tue");
+				xAxisName.add("Wed");
+				xAxisName.add("Thu");
+				xAxisName.add("Fri");
+				xAxisName.add("Sat");
+				xAxisName.add("Sun");
+				
+				List<String> snames = new ArrayList<>();
+				snames.add("Step Start");
+				snames.add("Step Middle");
+				snames.add("Step End");
+				
+				List<String> stepNames = new ArrayList<>();
+				stepNames.add("Start");
+				stepNames.add("Middle");
+				stepNames.add("End");
+				
+				List<List<String>> datas = new ArrayList<>();
+				List<String> temp = new ArrayList<>();
+				temp.add("120");
+				temp.add("120");
+				temp.add("120");
+				temp.add("120");
+				temp.add("120");
+				temp.add("120");
+				temp.add("120");
+				datas.add(temp);
+				
+				temp = new ArrayList<>();
+				temp.add("220");
+				temp.add("220");
+				temp.add("220");
+				temp.add("220");
+				temp.add("220");
+				temp.add("220");
+				temp.add("220");
+				datas.add(temp);
+				
+				temp = new ArrayList<>();
+				temp.add("320");
+				temp.add("320");
+				temp.add("320");
+				temp.add("320");
+				temp.add("320");
+				temp.add("320");
+				temp.add("320");
+				datas.add(temp);
+				EChartsStepLineDto eChartsStepLineDto = new EChartsStepLineDto("测试", legendData, xAxisName, snames, stepNames, datas);
+				resp.getWriter().println(JSON.toJSON(eChartsStepLineDto));
+				
+			} else if("pie".equals(type)) {
+				EChartsPieDto eChartsDto = professionalService.studentNumInProByPie();
+				resp.getWriter().println(JSON.toJSON(eChartsDto));
+			} else if("bar".equals(type)) {
+				EChartsBarDto eChartsDto = professionalService.studentNumInProByBar();
+				resp.getWriter().println(JSON.toJSON(eChartsDto));
+				
+			}
+		} catch (ServiceException e) {
+			logger.error("[ProfessionalController:statisticalQuery]" + e.getMessage());
+			resp.getWriter().print(false);
 		}
 	}
 }
