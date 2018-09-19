@@ -84,8 +84,6 @@
     <script src="${pageContext.request.contextPath}/lib/jquery-3.3.1.min.js"></script>
     <!-- 加载 Bootstrap 的所有 JavaScript 插件。你也可以根据需要只加载单个插件。 -->
     <script src="${pageContext.request.contextPath}/lib/bootstrap.min.js"></script>
-
-    <script src="${pageContext.request.contextPath}/js/main.js"></script>
     
 	<script src="${pageContext.request.contextPath }/lib/bootstrap-datetimepicker.min.js"></script>
 	
@@ -99,4 +97,5 @@
     
     <script src="http://at.alicdn.com/t/font_783692_gfwpqhoo67.js"></script>
     
+    <script src="${pageContext.request.contextPath}/js/main.js"></script>
 </html>

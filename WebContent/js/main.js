@@ -105,5 +105,50 @@ function refreshTable(name) {
 		});
 		return idArr
 	}
+	
+	//给定表单的所有属性装入对象中
+	function form2obj($form) {
+		var obj = {};
+		$form.find("input,select,textarea").each(function() {
+			if($(this).attr("type") != "hidden") {
+				obj[$(this).attr("name")] = $(this).val();
+			}
+		})
+		return obj;
+	}
+
+
+
+	//班级树调用
+	function randerTree($Ct,expandedTree,selectedTree) {
+		$Ct.treeview({data: nodes,levels: 1,showCheckbox: true});    
+		$Ct.on("nodeExpanded",expandedTree);
+		$Ct.on("nodeSelected",selectedTree);
+	}
+
+	
+	var linkArr = [];
+	function getArrIndex($span) {
+		var pid = $span.attr("data-pid");
+		var $pspan = $("span[data-id="+ pid +"]");
+		
+		if($pspan.length != 0) {
+			 var pnum = $pspan.attr("data-num");
+			 linkArr.push(pnum);
+			 getArrIndex($pspan);
+		}
+	}
+	
+	function emptyTreeSelect(nodes) {
+		for(var i=0;i<nodes.length;i++) {
+			nodes[i].state.selected = false;
+			if(nodes[i].nodes != undefined && nodes[i].nodes.length != 0) {
+				emptyTreeSelect(nodes[i].nodes);
+			}
+		}
+	}
+	
+	
+	
 
 

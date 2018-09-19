@@ -95,5 +95,19 @@ public class PermsController extends CoreController {
 		
 	}
 
+	public void pro_modify(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
+		String id = req.getParameter("id");
+		Perms perms;
+		try {
+			perms = permsService.query(id);
+			req.setAttribute("perms", perms);
+			req.setAttribute("command", "modify");
+			req.getRequestDispatcher("pro_modify.jsp").forward(req, resp);
+		} catch (ServiceException e) {
+			logger.error("[PermsController:pro_modify]" + e.getMessage());
+			req.setAttribute("msg", e.getMessage());
+			req.getRequestDispatcher("/error.jsp").forward(req, resp);
+		}
+	}
 
 }

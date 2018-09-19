@@ -16,4 +16,6 @@ public interface PermsService {
 
 	List<treeNode> getTreeNodes(String pid) throws ServiceException;
 
+	Perms query(String id) throws ServiceException;
+
 }

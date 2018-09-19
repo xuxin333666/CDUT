@@ -70,6 +70,16 @@ public class PermsServiceImpl implements PermsService {
 		}
 	}
 
+	@Override
+	public Perms query(String id) throws ServiceException {
+		try {
+			return permsDao.query(id);
+		} catch (DaoException e) {
+			logger.error("[PermsServiceImpl:query]" + e.getMessage());
+			throw new ServiceException(e.getMessage());
+		}
+	}
+
 
 }
 

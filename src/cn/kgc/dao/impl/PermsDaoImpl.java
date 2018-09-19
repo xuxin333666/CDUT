@@ -27,6 +27,15 @@ public class PermsDaoImpl extends BaseDaoImpl<Perms> implements PermsDao {
 			return queryById("SELECT * FROM t_perms AS s LEFT JOIN t_perms AS p ON s.p_id = p.id WHERE p.id = ?", Perms.class, Perms.class, columnName, pid);
 		}
 	}
+	@Override
+	public Perms query(String id) throws DaoException {
+		List<Perms> permss = queryById("SELECT * FROM t_perms AS s LEFT JOIN t_perms AS p ON s.p_id = p.id WHERE s.id = ?", Perms.class, Perms.class, columnName, id);
+		if(permss.size() != 0) {
+			return permss.get(0);
+		} else {
+			throw new DaoException("找不到该资源");
+		}
+	}
 
 
 }

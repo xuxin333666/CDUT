@@ -15,4 +15,6 @@ public interface PermsDao {
 
 	List<Perms> queryPermsName(String pid) throws DaoException;
 
+	Perms query(String id) throws DaoException;
+
 }

@@ -10,63 +10,28 @@
 
 </head>
 <body>
-	<div class="row studentRow">
+	<div class="row permsRow">
 		<div class="col-xs-3">
 			<div id="permsTree" style="height: 400px;overflow: auto;"></div>
 		</div>
 		<div class="col-xs-9">
 
-			<div class="row">
-				    <div class="col-xs-12">
-				        <div class="btn-toolbar" role="toolbar" aria-label="...">
-				            <div class="btn-group" role="group" aria-label="...">
-					                <button type="button" class="btn btn-primary perms_add">新增资源</button>
-				            </div>
-				            
-				            <div class="btn-group float-right user-set" role="group" aria-label="...">
-				                <button type="button" class="btn btn-default">设置</button>
-				                <button type="button" class="btn btn-default">帮助</button>
-				            </div>                       
-				        </div>
-				    </div>
-				</div>
+			<div class="row proModifyCt">
+				
+			</div>
+
 		</div>
 	</div>
 	
 	<script>
 
 		function submitStudentForm() {
+			
 			refreshFrame("资源管理",str);
 		}
 	
 		$(".studentForm").on("submit",submitStudentForm);
 		
-
-	$('.dateInput').datetimepicker({
-		format:"yyyy-mm-dd",
-
-	    weekStart: 1,
-
-	    todayBtn:  1,
-
-		autoclose: 1,
-
-		todayHighlight: 1,
-
-		startView: 2,
-
-		forceParse: 0,
-
-	    showMeridian: 1,
-	    
-	    minView: 2,
-	    
-	    language: "zh-CN"
-
-
-	    });
-	
-
 	
 	//新建
 	$(".student_add").on("click",function() {
@@ -128,38 +93,19 @@
 			}
 		});
 	})
+	
+	//更新修改框
+	function updateProModify(url) {
+		$(".permsRow .proModifyCt").load(url);
+	}
+	
+	
+	
+	//树的全局变量
 	var nodes = ${nodes};
-
-	//班级树调用
-	function randerTree() {
-		$('#permsTree').treeview({data: nodes,levels: 1,showCheckbox: true});    
-		$('#permsTree').on("nodeExpanded",expandedTree);
-	}
-	 
-	randerTree();
 	
-	var linkArr = [];
-	function getArrIndex($span) {
-		var pid = $span.attr("data-pid");
-		var $pspan = $("span[data-id="+ pid +"]");
-		
-		if($pspan.length != 0) {
-			 var pnum = $pspan.attr("data-num");
-			 linkArr.push(pnum);
-			 getArrIndex($pspan);
-		}
-	}
-	
-	function emptyTreeSelect(nodes) {
-		for(var i=0;i<nodes.length;i++) {
-			nodes[i].state.selected = false;
-			if(nodes[i].nodes != undefined && nodes[i].nodes.length != 0) {
-				emptyTreeSelect(nodes[i].nodes);
-			}
-		}
-	}
-	
-	
+	//渲染树
+	randerTree($('#permsTree'),expandedTree,selectedTree);
 	//展开树执行该方法
 	function expandedTree(event, node) {
 		var $span = $(event.target).find("li[data-nodeId="+node.nodeId+"]").find("span:last");
@@ -181,14 +127,24 @@
 					mynode.state = node.state;
 					mynode.state.selected = true;
 					
-					randerTree();     
+					randerTree($('#permsTree'),expandedTree,selectedTree);
+					
 				}
 			}
 		}) 
 	}
-	
-	
-	
+	//选择树执行该方法
+	function selectedTree(event, node) {
+		var $span = $(event.target).find("li[data-nodeId="+node.nodeId+"]").find("span:last");
+		var id = $span.attr("data-id");
+		var url;
+		if(id != undefined && id != "") {
+			url = "permissions/perms/pro_modify?id=" + id;
+		} else {
+			url = "permissions/perms/pro_add";
+		}
+		updateProModify(url);
+	}
 	</script>
 </body>
 </html>
