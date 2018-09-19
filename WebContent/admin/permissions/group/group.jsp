@@ -44,9 +44,15 @@
 				    <div class="col-xs-12">
 				        <div class="btn-toolbar" role="toolbar" aria-label="...">
 				            <div class="btn-group" role="group" aria-label="...">
+				            <shiro:hasPermission name="group:add">
 				                <button type="button" class="btn btn-primary group_add" data-toggle="modal">新增</button>
+				            </shiro:hasPermission>
+				            <shiro:hasPermission name="group:modify">
 				                <button type="button" class="btn btn-success group_modify" data-toggle="modal">修改</button>
+				            </shiro:hasPermission>
+				            <shiro:hasPermission name="group:save">
 				                <button type="button" class="btn btn-info group_del">删除</button>
+				            </shiro:hasPermission>
 				            </div>
 				            <div class="btn-group" role="group" aria-label="...">
 				            <shiro:hasPermission name="group:enable">
@@ -78,7 +84,9 @@
 			      </div>
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-default" data-dismiss="modal">退出</button>
-			        <button type="button" class="btn btn-primary saveChangeBtn">保存修改</button>
+			        <shiro:hasPermission name="group:save">
+				        <button type="button" class="btn btn-primary saveChangeBtn">保存修改</button>
+			        </shiro:hasPermission>
 			      </div>
 			    </div>
 			  </div>

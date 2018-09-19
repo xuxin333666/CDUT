@@ -1,7 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
- 
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %> 
  
 <div class="col-sm-1"></div>
 
@@ -18,10 +18,10 @@
 			    <!-- Text input-->
 				<label class="control-label" for="stuentId">学号</label>
 				<c:if test="${command == 'add' }">
-					<input id="stuentId" type="text" class="form-control" name="id" value="${student.id }">
+					<input id="stuentId" type="text" class="form-control" name="id" value="${student.id }" disabled >
 				</c:if>
 				<c:if test="${command == 'modify' }">
-					<input id="stuentId" type="text" class="form-control" name="id" value="${student.id }" readonly>
+					<input id="stuentId" type="text" class="form-control" name="id" value="${student.id }" readonly disabled >
 				</c:if>
 				<p class="help-block">请按一定规则编写学号</p>
 			</div>
@@ -36,14 +36,14 @@
 			<div class="form-group">
 			    <!-- Text input-->
 			    <label class="control-label" for="registeredResidence">户口所在地</label>
-			    <input id="registeredResidence" type="text" class="form-control" name="registeredResidence" value="${student.registeredResidence }">
+			    <input id="registeredResidence" type="text" class="form-control" name="registeredResidence" value="${student.registeredResidence }" disabled >
 			    <p class="help-block">规范填写</p>
 			</div>   
 
 			<div class="form-group">
 				<!-- Text input-->
 				<label class="control-label" for="birthday">出生日期</label>
-				<input id="birthday" type="text" class="form-control student_date" name="birthday" value="${student.birthday }">
+				<input id="birthday" type="text" class="form-control student_date" name="birthday" value="${student.birthday }" disabled >
 				<p class="help-block">使用控件填写时间</p>
 			</div>  
 			
@@ -52,7 +52,7 @@
 				<!-- Text input-->
 				<label class="control-label" for="st_bloodType">血型</label>
 				<div class="controls">
-					<select class="form-control" name="bloodType" id="st_bloodType">
+					<select class="form-control" name="bloodType" id="st_bloodType" disabled >
 					<c:forEach items="${selectMap.bloodType }" var="bloodType">
 						<option value="${bloodType.key }">${bloodType.value }</option>
 					</c:forEach>
@@ -65,7 +65,7 @@
 				<!-- Text input-->
 				<label class="control-label" for="st_stadyStatus">在读状态</label>
 				<div class="controls">
-					<select class="form-control" name="stadyStatus" id="st_stadyStatus">
+					<select class="form-control" name="stadyStatus" id="st_stadyStatus" disabled >
 					<c:forEach items="${selectMap.stadyStatus }" var="stadyStatus">
 						<option value="${stadyStatus.key }">${stadyStatus.value }</option>
 					</c:forEach>
@@ -83,7 +83,7 @@
 		    <div class="form-group">
 		        <!-- Text input-->
 		        <label class="control-label" for="stuentName">学生姓名</label>
-		        <input id="stuentName" type="text" class="form-control" name="name" value="${student.name }">
+		        <input id="stuentName" type="text" class="form-control" name="name" value="${student.name }" disabled >
 		        <p class="help-block">请输入合法的姓名</p>
 			</div>
 
@@ -98,7 +98,7 @@
 				<!-- Text input-->
 				<label class="control-label" for="st_national">民族</label>
 				<div class="controls">
-					<select class="form-control" name="national" id="st_national">
+					<select class="form-control" name="national" id="st_national" disabled >
 					<c:forEach items="${selectMap.national }" var="national">
 						<option value="${national.key }">${national.value }</option>
 					</c:forEach>
@@ -111,14 +111,14 @@
 			<div class="form-group">
 				<!-- Text input-->
 				<label class="control-label" for="birthplace">出生地点</label>
-				<input id="birthplace" type="text" class="form-control" name="birthplace" value="${student.birthplace }">
+				<input id="birthplace" type="text" class="form-control" name="birthplace" value="${student.birthplace }" disabled >
 				<p class="help-block">请按一定规则编写</p>
 			</div>
 
 			<div class="form-group">
 				<!-- Text input-->
 				<label class="control-label" for="sourceSchool">来源学校</label>
-				<input id="sourceSchool" type="text" class="form-control" name="sourceSchool" value="${student.sourceSchool }">
+				<input id="sourceSchool" type="text" class="form-control" name="sourceSchool" value="${student.sourceSchool }" disabled >
 				<p class="help-block">请按一定规则编写</p>
 			</div>
 			
@@ -127,7 +127,7 @@
 				<!-- Text input-->
 				<label class="control-label" for="st_residenceStatus">是否住校</label>
 				<div class="controls">
-					<select class="form-control" name="residenceStatus" id="st_residenceStatus">
+					<select class="form-control" name="residenceStatus" id="st_residenceStatus" disabled >
 					<c:forEach items="${selectMap.residenceStatus }" var="residenceStatus">
 						<option value="${residenceStatus.key }">${residenceStatus.value }</option>
 					</c:forEach>
@@ -144,7 +144,7 @@
 					<!-- Text input-->
 				<label class="control-label" for="st_gender">性别</label>
 				<div class="controls">
-					<select class="form-control" name="gender" id="st_gender">
+					<select class="form-control" name="gender" id="st_gender" disabled >
 					<c:forEach items="${selectMap.gender }" var="gender">
 						<option value="${gender.key }">${gender.value }</option>
 					</c:forEach>
@@ -164,7 +164,7 @@
 				<!-- Text input-->
 				<label class="control-label" for="st_idcardType">身份证件类型</label>
 				<div class="controls">
-					<select class="form-control" name="idcardType" id="st_idcardType">
+					<select class="form-control" name="idcardType" id="st_idcardType" disabled >
 					<c:forEach items="${selectMap.idcardType }" var="idcardType">
 						<option value="${idcardType.key }">${idcardType.value }</option>
 					</c:forEach>
@@ -176,14 +176,14 @@
 			<div class="form-group">
 				<!-- Text input-->
 				<label class="control-label" for="nativePlace">籍贯</label>
-				<input id="nativePlace" type="text" class="form-control" name="nativePlace" value="${student.nativePlace }">
+				<input id="nativePlace" type="text" class="form-control" name="nativePlace" value="${student.nativePlace }" disabled >
 				<p class="help-block">请按一定规则编写</p>
 			</div>
 
 			<div class="form-group">
 				<!-- Text input-->
 				<label class="control-label" for="admissionDate">入学日期</label>
-				<input id="admissionDate" type="text" class="form-control student_date" name="admissionDate" value="${student.admissionDate }">
+				<input id="admissionDate" type="text" class="form-control student_date" name="admissionDate" value="${student.admissionDate }" disabled >
 				<p class="help-block">使用控件填写时间</p>
 			</div>  
 
@@ -193,7 +193,7 @@
 			<div class="form-group">
 					<!-- Text input-->
 				<label class="control-label" for="registrationNo">报道号</label>
-				<input id="registrationNo" type="text" class="form-control" name="registrationNo" value="${student.registrationNo }">
+				<input id="registrationNo" type="text" class="form-control" name="registrationNo" value="${student.registrationNo }" disabled >
 				<p class="help-block">请按一定规则编写</p>
 			</div>
 
@@ -207,7 +207,7 @@
 			<div class="form-group">
 				<!-- Text input-->
 				<label class="control-label" for="idcard">身份证件号码</label>
-				<input id="idcard" type="text" class="form-control" name="idcard" value="${student.idcard }">
+				<input id="idcard" type="text" class="form-control" name="idcard" value="${student.idcard }" disabled >
 				<p class="help-block">请输入合法证件号</p>
 			</div>
 
@@ -215,7 +215,7 @@
 				<!-- Text input-->
 				<label class="control-label" for="st_registeredType">户口类型</label>
 				<div class="controls">
-					<select class="form-control" name="registeredType" id="st_registeredType">
+					<select class="form-control" name="registeredType" id="st_registeredType" disabled >
 					<c:forEach items="${selectMap.registeredType }" var="registeredType">
 						<option value="${registeredType.key }">${registeredType.value }</option>
 					</c:forEach>
@@ -229,7 +229,7 @@
 				<!-- Text input-->
 				<label class="control-label" for="st_educationBackground">目前学历</label>
 				<div class="controls">
-					<select class="form-control" name="educationBackground" id="st_educationBackground">
+					<select class="form-control" name="educationBackground" id="st_educationBackground" disabled >
 					<c:forEach items="${selectMap.educationBackground }" var="educationBackground">
 						<option value="${educationBackground.key }">${educationBackground.value }</option>
 					</c:forEach>
@@ -254,14 +254,14 @@
 			<div class="form-group">
 				<!-- Text input-->
 				<label class="control-label" for="nameEn">英文名</label>
-				<input id="nameEn" type="text" class="form-control" name="nameEn" value="${student.nameEn }">
+				<input id="nameEn" type="text" class="form-control" name="nameEn" value="${student.nameEn }" disabled >
 				<p class="help-block">请按一定规则编写</p>
 			</div>
 			
 			<div class="form-group">
 				<!-- Text input-->
 				<label class="control-label" for="nationality">国籍</label>
-				<input id="nationality" type="text" class="form-control" name="nationality" value="${student.nationality }">
+				<input id="nationality" type="text" class="form-control" name="nationality" value="${student.nationality }" disabled >
 				<p class="help-block">请按一定规则编写</p>
 			</div>  
 		</div> 
@@ -272,14 +272,14 @@
 			<div class="form-group">
 				<!-- Text input-->
 				<label class="control-label" for="usedName">曾用名</label>
-				<input id="usedName" type="text" class="form-control" name="usedName" value="${student.usedName }">
+				<input id="usedName" type="text" class="form-control" name="usedName" value="${student.usedName }" disabled >
 				<p class="help-block">请按一定规则编写</p>
 			</div>  
 
 			<div class="form-group">
 				<!-- Text input-->
 				<label class="control-label" for="phoneNum">联系电话</label>
-				<input id="phoneNum" type="text" class="form-control" name="phoneNum" value="${student.phoneNum }">
+				<input id="phoneNum" type="text" class="form-control" name="phoneNum" value="${student.phoneNum }" disabled >
 				<p class="help-block">请按一定规则编写</p>
 			</div>
 		</div>	
@@ -292,7 +292,7 @@
 				<!-- Text input-->
 				<label class="control-label" for="st_maritalStatus">婚姻状态</label>
 				<div class="controls">
-					<select class="form-control" name="maritalStatus" id="st_maritalStatus">
+					<select class="form-control" name="maritalStatus" id="st_maritalStatus" disabled >
 					<c:forEach items="${selectMap.maritalStatus }" var="maritalStatus">
 						<option value="${maritalStatus.key }">${maritalStatus.value }</option>
 					</c:forEach>
@@ -305,7 +305,7 @@
 				<!-- Text input-->
 				<label class="control-label" for="st_politicalStatus">政治情况</label>
 				<div class="controls">
-					<select class="form-control" name="politicalStatus" id="st_politicalStatus">
+					<select class="form-control" name="politicalStatus" id="st_politicalStatus" disabled >
 					<c:forEach items="${selectMap.politicalStatus }" var="politicalStatus">
 						<option value="${politicalStatus.key }">${politicalStatus.value }</option>
 					</c:forEach>
@@ -322,7 +322,7 @@
 				<!-- Text input-->
 				<label class="control-label" for="st_healthStatus">健康状态</label>
 				<div class="controls">
-					<select class="form-control" name="healthStatus" id="st_healthStatus">
+					<select class="form-control" name="healthStatus" id="st_healthStatus" disabled >
 					<c:forEach items="${selectMap.healthStatus }" var="healthStatus">
 						<option value="${healthStatus.key }">${healthStatus.value }</option>
 					</c:forEach>
@@ -334,7 +334,7 @@
 			<div class="form-group">
 				<!-- Text input-->
 				<label class="control-label" for="email">电子邮箱</label>
-				<input id="email" type="text" class="form-control" name="email" value="${student.email }">
+				<input id="email" type="text" class="form-control" name="email" value="${student.email }" disabled >
 				<p class="help-block">请按一定规则编写</p>
 			</div>
 		</div>	
@@ -345,12 +345,12 @@
  	<div class="row">
 	 	<div class="col-sm-12 form-group">
 			<label class="control-label" for="specialty">特长写在这里：</label>
-			<textarea class="form-group" name="specialty" id="specialty"></textarea>
+			<textarea class="form-group" name="specialty" id="specialty" disabled ></textarea>
 		</div>
  	</div>
  	
- 	<input type="hidden" name="command" value="${command }"/>
-	<input type="hidden" name="gid" value="${student.group.id }"/>
+ 	<input type="hidden" name="command" value="${command }" disabled />
+	<input type="hidden" name="gid" value="${student.group.id }" disabled />
 </form>
   
 <div class="col-sm-1"></div>
@@ -362,6 +362,16 @@
 			<script>$("#st_" + '${key.key}').val("${student[key.key] }")</script>
 		</c:if>
 	</c:forEach>
+	
+	<shiro:hasPermission name="student:modify">
+	 	<script>
+	 		$(".modifyBody .form-horizontal").find("input,select,textarea").each(function(){
+	 			if($(this).attr("name") != undefined && $(this).attr("name") != "") {
+	 				$(this).prop("disabled",false);
+	 			}
+	 		})
+	 	</script>
+	 </shiro:hasPermission>
   
 <script>
 	

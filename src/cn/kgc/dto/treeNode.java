@@ -1,5 +1,6 @@
 package cn.kgc.dto;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -7,7 +8,7 @@ public class treeNode {
 	private String text;
 	private String icon;
 	private String selectedIcon;
-	private Map<String, String> state;
+	private Map<String, String> state = new HashMap<>();
 	private List<treeNode> nodes;
 	
 	

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
-    
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>    
 <div class="row">
 <div class="col-xs-1"></div>
 	<div class="col-xs-4">
@@ -12,7 +12,7 @@
 		<form class="uploadForm form-horizontal form-group" action="permissions/student/fileUpload" method="post" enctype="multipart/form-data" target="rfFrame">
 			<label class="control-label" for="stuentId">选择一张证件照上传吧</label>
 			<div class=" form-group">
-			    <input  type="file" name="myfile1" accept=".jpg,.gif,.png"/>
+			    <input  type="file" name="myfile1" accept=".jpg,.gif,.png" disabled/>
 			</div>
 			<div class=" form-group text-center ">
 			    <input class="btn btn-primary  col-xs-4"  onclick="uploadSubmit()" type="submit" value="上传">
@@ -25,7 +25,11 @@
 	<iframe id="rfFrame" name="rfFrame" src="about:blank" style="display:none;"></iframe> 
 </div>
 
-
+<shiro:hasPermission name="student:proFileUpload">
+ 	<script>
+ 		$(".studentModalBody_modify .form-horizontal").find("input,select,textarea").prop("disabled",false);
+ 	</script>
+ </shiro:hasPermission>
 
 <script>
 	function uploadSubmit() {

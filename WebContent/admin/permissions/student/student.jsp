@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -41,9 +42,15 @@
 				    <div class="col-xs-12">
 				        <div class="btn-toolbar" role="toolbar" aria-label="...">
 				            <div class="btn-group" role="group" aria-label="...">
-				                <button type="button" class="btn btn-primary student_add">国网注册</button>
-				                <button type="button" class="btn btn-info student_fileUpload" data-toggle="modal">信息采集</button>
-				                <button type="button" class="btn btn-success student_modify">修改</button>
+				            	<shiro:hasPermission name="student:add">
+					                <button type="button" class="btn btn-primary student_add">国网注册</button>
+				            	</shiro:hasPermission>
+				            	<shiro:hasPermission name="student:proFileUpload">
+					                <button type="button" class="btn btn-info student_fileUpload" data-toggle="modal">信息采集</button>
+				            	</shiro:hasPermission>
+				            	<shiro:hasPermission name="student:modify">
+					                <button type="button" class="btn btn-success student_modify">修改</button>
+				            	</shiro:hasPermission>
 				            </div>
 				            
 				            <div class="btn-group float-right user-set" role="group" aria-label="...">
@@ -67,7 +74,9 @@
 	     <div class="row modifyBody"></div>
 	     
 	     <div class="text-center row modifyFooter">
-	       <button type="button" class="btn btn-primary saveChangeBtn">保存</button>
+	     <shiro:hasPermission name="student:save">
+		 	<button type="button" class="btn btn-primary saveChangeBtn">保存</button>
+	     </shiro:hasPermission>
 	       <button type="button" class="btn btn-default quitBtn">退出</button>
 		</div>
 	</div>
@@ -84,7 +93,9 @@
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">退出</button>
-	        <button type="button" class="btn btn-primary uploadSave">保存修改</button>
+	        <shiro:hasPermission name="student:fileUpload">
+		        <button type="button" class="btn btn-primary uploadSave">保存修改</button>
+	        </shiro:hasPermission>
 	      </div>
 	    </div>
 	  </div>

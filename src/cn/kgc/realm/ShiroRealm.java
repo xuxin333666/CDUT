@@ -1,7 +1,6 @@
 package cn.kgc.realm;
 
 
-import java.util.HashSet;
 import java.util.Set;
 
 import org.apache.shiro.authc.AuthenticationException;
@@ -22,7 +21,10 @@ import org.slf4j.LoggerFactory;
 import cn.kgc.dao.impl.UserDaoImpl;
 import cn.kgc.dao.intf.UserDao;
 import cn.kgc.exception.DaoException;
+import cn.kgc.exception.ServiceException;
 import cn.kgc.model.User;
+import cn.kgc.service.impl.PermsServiceImpl;
+import cn.kgc.service.intf.PermsService;
 
 public class ShiroRealm extends AuthorizingRealm {
 	private static final Logger logger = LoggerFactory.getLogger(ShiroRealm.class); 
@@ -59,31 +61,33 @@ public class ShiroRealm extends AuthorizingRealm {
 
 	@Override//授权方法
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection collection) {
-		System.out.println("授权方法执行");
 		User user = (User)collection.getPrimaryPrincipal();
 		System.out.println("【当前登录用户是---------->】" + user.getUsername());
-		//假设
-		Set<String> perms = new HashSet<>();
-		perms.add("baseDate:query");
-		perms.add("studentDay:query");
-		perms.add("studentStatus:query");
 		
-		perms.add("base:main");
-		perms.add("professional:main");
-		perms.add("group:main");
-		perms.add("professional_num_statistical:main");
-		perms.add("statisticalQuery:main");
+		PermsService permsService = new PermsServiceImpl();
 		
+		Set<String> perms;
+		try {
+			perms = permsService.getPerms(user);
+		} catch (ServiceException e) {
+			logger.error("[ShiroRealm:doGetAuthorizationInfo]" + e.getMessage());
+			throw new AuthenticationException(e.getMessage());
+		}
 		if("admin".equals(user.getUsername())) {
-			perms.add("systemManagement:query");
-			perms.add("service_student:main");
 			
-			perms.add("student_report:main");
-			perms.add("student_regist:main");
-			perms.add("student:main");
+			perms.add("group:add");
+			perms.add("group:modify");
+			perms.add("group:del");
+			perms.add("group:save");
+			perms.add("group:enable");
+			perms.add("group:disable");
 			
-			perms.add("grop:enable");
-			perms.add("grop:disable");
+			perms.add("student:add");
+			perms.add("student:modify");
+			perms.add("student:del");
+			perms.add("student:save");
+			perms.add("student:proFileUpload");
+			perms.add("student:fileUpload");
 		}else {
 		}
 		

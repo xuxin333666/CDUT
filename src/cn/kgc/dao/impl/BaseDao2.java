@@ -9,6 +9,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -316,6 +317,45 @@ public class BaseDao2<T> {
 			}
 		}
 		return values;
+	}
+	
+	/**
+	 * 根据登陆用户id查询拥有权限名称
+	 * @param sql
+	 * @param userId
+	 * @param colName
+	 * @return
+	 * @throws DaoException
+	 */
+	public Set<String> queryPermsName(String sql,String userId,String colName) throws DaoException  {
+		Set<String> set = new HashSet<>();
+		DBPoolConnection dbp = new DBPoolConnection();
+		Connection cn = null;
+		PreparedStatement psm = null;
+		ResultSet result = null;
+		try {
+			cn = dbp.getConnection();
+			psm = cn.prepareStatement(sql);
+			psm.setString(1, userId);
+			result = psm.executeQuery();
+			while(result.next()) {
+				String permsName = result.getString(colName);
+				set.add(permsName);
+			}
+		} catch (Exception e) {
+			logger.error("[BaseDao2:queryPermsName:数据库异常]" + e.getMessage());
+			throw new DaoException(e.getMessage());
+		} finally {
+			if(cn != null) {
+				try {
+					cn.close();
+				} catch (SQLException e) {
+					logger.error("[BaseDao2:queryPermsName:数据库连接关闭错误]" + e.getMessage());
+					throw new DaoException(e.getMessage());
+				}
+			}
+		}
+		return set;
 	}
 
 }

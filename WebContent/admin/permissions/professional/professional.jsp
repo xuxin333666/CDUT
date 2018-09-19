@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
     pageEncoding="utf-8"%>
+<%@ taglib prefix="shiro" uri="http://shiro.apache.org/tags" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -21,13 +22,23 @@
 		    <div class="col-xs-12">
 		        <div class="btn-toolbar" role="toolbar" aria-label="...">
 		            <div class="btn-group" role="group" aria-label="...">
+		            <shiro:hasPermission name="pro:add">
 		                <button type="button" class="btn btn-primary professional_add" data-toggle="modal">新增</button>
+		            </shiro:hasPermission>
+		             <shiro:hasPermission name="pro:modify">
 		                <button type="button" class="btn btn-success professional_modify" data-toggle="modal">修改</button>
+		            </shiro:hasPermission>
+		             <shiro:hasPermission name="pro:del">
 		                <button type="button" class="btn btn-info professional_del" data-url="">删除</button>
+		            </shiro:hasPermission>
 		            </div>
 		            <div class="btn-group" role="group" aria-label="...">
+		            <shiro:hasPermission name="pro:enable">
 						<button type="button" class="btn btn-primary professional_enable" data-toggle="modal">启用</button>
+		            </shiro:hasPermission>
+		           	<shiro:hasPermission name="pro:disable">
 		                <button type="button" class="btn btn-success professional_disable" data-toggle="modal">停用</button>
+		            </shiro:hasPermission>
 		            </div>
 		            <div class="btn-group float-right user-set" role="group" aria-label="...">
 		                <button type="button" class="btn btn-default">设置</button>
@@ -48,7 +59,9 @@
 		      </div>
 		      <div class="modal-footer">
 		        <button type="button" class="btn btn-default" data-dismiss="modal">退出</button>
-		        <button type="button" class="btn btn-primary saveChangeBtn">保存修改</button>
+		        <shiro:hasPermission name="pro:save">
+			        <button type="button" class="btn btn-primary saveChangeBtn">保存修改</button>
+		        </shiro:hasPermission>
 		      </div>
 		    </div>
 		  </div>
